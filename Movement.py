@@ -44,3 +44,8 @@ class Movement():
 
         if not self.snake.growSnake:
             self.snake.snakePosition.pop()  # da zmija ne bude beskonacno dugacka
+
+    def timerEvent(self, event):
+        if event.timerId() == self.timer.timerId():
+            self.move_snake()
+            self.update()
