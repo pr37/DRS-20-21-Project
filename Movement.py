@@ -19,3 +19,28 @@ class Movement():
         elif key == Qt.Key_Up:
             if self.direction != 3:
                 self.direction = 4
+
+    @staticmethod
+    def move_snake(self):
+        if self.direction == 1:
+            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head - 1, self.snake.current_y_head
+            if self.snake.current_x_head < 0:
+                self.snake.current_x_head = Movement.WIDTHINBLOCKS - 1
+        if self.direction == 2:
+            self.snake.current_x_head, self.current_y_head = self.snake.current_x_head + 1, self.snake.current_y_head
+            if self.snake.current_x_head == Movement.WIDTHINBLOCKS:
+                self.snake.current_x_head = 0
+        if self.direction == 3:
+            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head, self.snake.current_y_head + 1
+            if self.snake.current_y_head == Movement.HEIGHTINBLOCKS:
+                self.snake.current_y_head = 0
+        if self.direction == 4:
+            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head, self.snake.current_y_head - 1
+            if self.snake.current_y_head < 0:
+                self.snake.current_y_head = Movement.HEIGHTINBLOCKS
+
+        head = [self.snake.current_x_head, self.snake.current_y_head]
+        self.snake.snakePosition.insert(0, head)
+
+        if not self.snake.growSnake:
+            self.snake.snakePosition.pop()  # da zmija ne bude beskonacno dugacka
