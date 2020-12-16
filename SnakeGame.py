@@ -3,7 +3,7 @@ from Board import Board
 
 
 class SnakeGame(QMainWindow):
-    def init(self):
+    def __init__(self):
         super(SnakeGame, self).__init__()
         self.sboard = Board(self)
 
