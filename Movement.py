@@ -19,6 +19,8 @@ class Movement():
         elif key == Qt.Key_Up:
             if self.direction != 3:
                 self.direction = 4
+        self.Movement.move_snake(self)
+        self.update()
 
     @staticmethod
     def move_snake(self):
@@ -45,7 +47,7 @@ class Movement():
         if not self.snake.growSnake:
             self.snake.snakePosition.pop()  # da zmija ne bude beskonacno dugacka
 
-    def timerEvent(self, event):
-        if event.timerId() == self.timer.timerId():
-            self.move_snake()
-            self.update()
+    #def timerEvent(self, event):
+    #    if event.timerId() == self.timer.timerId():
+            #self.move_snake()
+            #self.update()

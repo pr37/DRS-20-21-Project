@@ -34,7 +34,7 @@ class Board(QFrame):
 
     def paintEvent(self, event) -> None: self.drawer.paintEvent(self, event)
 
-    def timerEvent(self, event):
-        if event.timerId() == self.timer.timerId():
-            self.Movement.move_snake(self)
-            self.update()
+    #def timerEvent(self, event):
+    #    if event.timerId() == self.timer.timerId():
+    #        self.Movement.move_snake(self)
+    #        self.update()
