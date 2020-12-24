@@ -9,7 +9,7 @@ class SnakeGame(QMainWindow):
 
         self.setCentralWidget(self.sboard)
         self.setWindowTitle('DRS Snake Game')
-        self.setStyleSheet("QWidget {background-image: url(background.jpg)}")
+       #self.setStyleSheet("QWidget {background-image: url(background.jpg)}")
         self.resize(600, 400)
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
