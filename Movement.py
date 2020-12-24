@@ -1,4 +1,14 @@
+import enum
+
 from PyQt5.QtCore import QBasicTimer, Qt
+
+
+class MovementDirection(enum.Enum):
+    Left = 1
+    Right = 2
+    Down = 3
+    Up = 4
+
 
 class Movement():
     WIDTHINBLOCKS = 60
