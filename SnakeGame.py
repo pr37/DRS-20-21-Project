@@ -7,17 +7,28 @@ from Player import Player
 class SnakeGame(QMainWindow):
     def __init__(self):
         super(SnakeGame, self).__init__()
-        self.sboard = Board(self)
-
+        self.sboard = Board(self, 2)  # start the game with 2 players
+        self.sboard.setStyleSheet("QWidget {background-image: url(background.jpg)}")
         self.setCentralWidget(self.sboard)
         self.setWindowTitle('DRS Snake Game')
-        self.setStyleSheet("QWidget {background-image: url(background.jpg)}")
-        self.resize(600, 400)
+        # self.setStyleSheet("QWidget {background-image: url(background.jpg)}")
+        self.resize(800, 800)
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
-
-        self.sboard.start()
+        self.form_widget = FormWidget(self)
+        layout = QGridLayout(self)
+        layout.addWidget(self.sboard, 0, 0, 7, 6)  # od 0 - 3 row, 0 - 2 clmn
+        self.forma = FormWidget(self)
+        # self.forma.setStyleSheet("background-color: yellow;")
+        # layout.addWidget(FormWidget(self))
+        widget = QWidget()
+        # self.forma.move(150,150)
+        # self.forma.resize(50,50)
+        layout.addWidget(self.forma, 6, 6)
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
+        # self.sboard.start()
         self.show()
 
 
