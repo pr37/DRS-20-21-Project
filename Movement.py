@@ -15,25 +15,41 @@ class Movement():
     HEIGHTINBLOCKS = 40
 
     @staticmethod
-    def keyPressEvent(self, event):  # levo1 desno2 dole3 gore4
+    def keyPressEvent(board, event):  # levo1 desno2 dole3 gore4
+        player = board.turnPlayer
+
+        if player.canEnd:
+            return
+
+        snake = player.turnSnake
         key = event.key()
         if key == Qt.Key_Left:
-            if self.direction != 2:  # ako je isao desno ne moze levo
-                self.direction = 1
+            if snake.direction == MovementDirection.Right:  # ako je isao desno ne moze levo
+                return
+            else:
+                snake.direction = MovementDirection.Left
         elif key == Qt.Key_Right:
-            if self.direction != 1:
-                self.direction = 2
+            if snake.direction == MovementDirection.Left:
+                return
+            else:
+                snake.direction = MovementDirection.Right
         elif key == Qt.Key_Down:
-            if self.direction != 4:
-                self.direction = 3
+            if snake.direction == MovementDirection.Up:
+                return
+            else:
+                snake.direction = MovementDirection.Down
         elif key == Qt.Key_Up:
-            if self.direction != 3:
-                self.direction = 4
-        self.Movement.move_snake(self)
-        self.update()
+            if snake.direction == MovementDirection.Down:
+                return
+            else:
+                snake.direction = MovementDirection.Up
+        board.Movement.move_snake(board, snake)
+        player.snakeMoved(snake)
+        board.update()
+
 
     @staticmethod
-    def move_snake(self):
+    def move_snake(self, board, snage):
         if self.direction == 1:
             self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head - 1, self.snake.current_y_head
             if self.snake.current_x_head < 0:

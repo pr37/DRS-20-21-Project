@@ -75,7 +75,7 @@ class Board(QFrame):
 
     def keyPressEvent(self, event) -> None: self.Movement.keyPressEvent(self, event)
 
-    def paintEvent(self, event) -> None: self.drawer.paintEvent(self, event)
+    def paintEvent(self, event) -> None: self.Drawer.paintEvent(self, event)
 
     def checkIfEmpty(self, position):
         # check if theres a snake there
