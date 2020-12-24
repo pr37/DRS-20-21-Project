@@ -82,3 +82,9 @@ class Drawer:
             #                h - 2, color)
         else:
             Drawer.draw_head(painter, x, y, w, h)
+
+    def draw_head(painter, x, y, w, h):
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("snakeHead.png"))
+
+    def draw_food(painter, x, y, w, h):
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("food.png"))
