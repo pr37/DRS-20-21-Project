@@ -65,7 +65,20 @@ class Drawer:
                                        boardtop + pos[1] * board.square_height(), board.square_width(),
                                        board.square_height(), board.Players[3].Name, isHead)
 
-    def draw_square(self, painter, x, y, w, h, isHead):  # crta kockicu zmijice
-        color = QColor(0x302213)
-        painter.fillRect(x + 1, y + 1, w - 2,
-                         h - 2, color)
+    def draw_square(painter, x, y, w, h, playerCurrent, isHead):  # crta kockicu zmijice
+        if not isHead:
+            if playerCurrent == 0:
+                # color = Drawer.config.snakeColor1
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("diamond.png"))
+            elif playerCurrent == 1:
+                # color = Drawer.config.snakeColor2
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("gold.png"))
+            elif playerCurrent == 2:
+                # color = Drawer.config.snakeColor3
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("sapphire.png"))
+            else:
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("emerald.png"))
+            # painter.fillRect(x + 1, y + 1, w - 2,
+            #                h - 2, color)
+        else:
+            Drawer.draw_head(painter, x, y, w, h)
