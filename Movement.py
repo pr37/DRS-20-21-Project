@@ -2,12 +2,18 @@ import enum
 
 from PyQt5.QtCore import QBasicTimer, Qt
 
+from GridElement import GridElementType
+
 
 class MovementDirection(enum.Enum):
     Left = 1
     Right = 2
     Down = 3
     Up = 4
+
+
+def checkCollision(board, x, y) -> GridElementType:
+    return board.Grid[x][y]
 
 
 class Movement():
@@ -47,31 +53,60 @@ class Movement():
         player.snakeMoved(snake)
         board.update()
 
-
     @staticmethod
-    def move_snake(self, board, snage):
-        if self.direction == 1:
-            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head - 1, self.snake.current_y_head
-            if self.snake.current_x_head < 0:
-                self.snake.current_x_head = Movement.WIDTHINBLOCKS - 1
-        if self.direction == 2:
-            self.snake.current_x_head, self.current_y_head = self.snake.current_x_head + 1, self.snake.current_y_head
-            if self.snake.current_x_head == Movement.WIDTHINBLOCKS:
-                self.snake.current_x_head = 0
-        if self.direction == 3:
-            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head, self.snake.current_y_head + 1
-            if self.snake.current_y_head == Movement.HEIGHTINBLOCKS:
-                self.snake.current_y_head = 0
-        if self.direction == 4:
-            self.snake.current_x_head, self.snake.current_y_head = self.snake.current_x_head, self.snake.current_y_head - 1
-            if self.snake.current_y_head < 0:
-                self.snake.current_y_head = Movement.HEIGHTINBLOCKS
+    def move_snake(board, snake):
+        snakePickedFood = False
+        if snake.direction == MovementDirection.Left:
+            newPosX, newPosY = snake.current_x_head - 1, snake.current_y_head
+            if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
+                    checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+                snake.current_x_head, snake.current_y_head = newPosX, newPosY
+                if snake.current_x_head < 0:
+                    snake.current_x_head = Movement.WIDTHINBLOCKS - 1
+                snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+                if snakePickedFood:
+                    board.foodUpdate([], [newPosX, newPosY])
 
-        head = [self.snake.current_x_head, self.snake.current_y_head]
-        self.snake.snakePosition.insert(0, head)
+        if snake.direction == MovementDirection.Right:
+            newPosX, newPosY = snake.current_x_head + 1, snake.current_y_head
+            if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
+                    checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+                snake.current_x_head, snake.current_y_head = newPosX, newPosY
+                if snake.current_x_head == Movement.WIDTHINBLOCKS:
+                    snake.current_x_head = 0
+                snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+                if snakePickedFood:
+                    board.foodUpdate([], [newPosX, newPosY])
 
-        if not self.snake.growSnake:
-            self.snake.snakePosition.pop()  # da zmija ne bude beskonacno dugacka
+        if snake.direction == MovementDirection.Down:
+            newPosX, newPosY = snake.current_x_head, snake.current_y_head + 1
+            if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
+                    checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+                snake.current_x_head, snake.current_y_head = newPosX, newPosY
+                if snake.current_y_head == Movement.HEIGHTINBLOCKS:
+                    snake.current_y_head = 0
+                snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+                if snakePickedFood:
+                    board.foodUpdate([], [newPosX, newPosY])
+
+        if snake.direction == MovementDirection.Up:
+            newPosX, newPosY = snake.current_x_head, snake.current_y_head - 1
+            if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
+                    checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+                snake.current_x_head, snake.current_y_head = newPosX, newPosY
+                if snake.current_y_head < 0:
+                    snake.current_y_head = Movement.HEIGHTINBLOCKS
+                snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+                if snakePickedFood:
+                    board.foodUpdate([], [newPosX, newPosY])
+
+        head = [snake.current_x_head, snake.current_y_head]
+        snake.snakePosition.insert(0, head)
+
+        if not snakePickedFood:
+            snake.oldPosition = snake.snakePosition.pop()
+        else:
+            snake.moves += 1
 
     #def timerEvent(self, event):
     #    if event.timerId() == self.timer.timerId():
