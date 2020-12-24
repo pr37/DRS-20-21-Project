@@ -40,6 +40,10 @@ class Board(QFrame):
         self.turnPlayer = self.Players[0]
         self.generateStartingFood()
 
+    def createGrid(self):
+        grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
+        return grid
+
     def start(self):
         self.timer.start(Board.SPEED, self) #na 150 msec radi tajmer
 
