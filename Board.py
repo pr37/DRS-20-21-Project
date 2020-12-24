@@ -39,7 +39,7 @@ class Board(QFrame):
             self.Players.append(Player(self, i, 3, positions, directions))
 
         self.turnPlayer = self.Players[0]
-        self.generateStartingFood()
+        #self.generateStartingFood()
 
     def createGrid(self):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
@@ -48,6 +48,8 @@ class Board(QFrame):
     def snakeUpdate(self, snakePosition, oldPosition):
         self.updateGrid(snakePosition, oldPosition, GridElementType.SnakePart)
 
+    def generateStartingFood(self):
+        pass
 
     def updateGrid(self, newPos, oldPos, type):
         for pos in newPos:
