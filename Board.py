@@ -45,6 +45,23 @@ class Board(QFrame):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
         return grid
 
+    def snakeUpdate(self, snakePosition, oldPosition):
+        self.updateGrid(snakePosition, oldPosition, GridElementType.SnakePart)
+
+
+    def updateGrid(self, newPos, oldPos, type):
+        for pos in newPos:
+            self.Grid[pos[0]][pos[1]] = type
+
+        if oldPos != [] and oldPos is not None:
+            self.Grid[oldPos[0]][oldPos[1]] = GridElementType.Empty
+            if type == GridElementType.Food:
+                newFoodList = []
+                for food in self.Foods:
+                    if food.position != [oldPos]:
+                        newFoodList.append(food)
+                self.Foods = newFoodList
+
     def start(self):
         self.timer.start(Board.SPEED, self) #na 150 msec radi tajmer
 
