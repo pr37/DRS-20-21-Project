@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QFrame
 import random
 
 from Config import Config
+from GridElement import GridElementType
 
 from Movement import Movement
 from Player import Player
