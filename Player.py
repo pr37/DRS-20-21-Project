@@ -13,6 +13,13 @@ class Player(Config):
         self.turnSnake = self.Snakes[0]
         self.canEnd = False
 
+    def endTurn(self):
+        if not self.canEnd:
+            return
+
+        self.resetSnakeMovements()
+        self.board.nextPlayerTurn()
+        self.canEnd = False
 
     def snakeMoved(self, snake):
         if snake.move():
@@ -20,7 +27,6 @@ class Player(Config):
             if index == 0:
                 self.canEnd = True
             self.turnSnake = self.Snakes[index]
-
 
     def resetSnakeMovements(self):
         for snake in self.Snakes:
