@@ -10,3 +10,20 @@ class Snake():
         self.updateBoardOfPosition()
         self.direction = direction
         self.moves = len(self.snakePosition)
+
+    #calculate number of moves for the snake and return a bool indicating the snake finished its turn
+    def move(self):
+        self.updateBoardOfPosition()
+        self.moves -= 1
+        if self.moves == 0:
+            self.moves = len(self.snakePosition)
+            return True
+        return False
+
+    def resetMoves(self):
+        self.moves = len(self.snakePosition)
+
+    def updateBoardOfPosition(self):
+        self.board.snakeUpdate(self.snakePosition, self.oldPosition)
+
+
