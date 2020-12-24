@@ -75,6 +75,16 @@ class Board(QFrame):
 
     def paintEvent(self, event) -> None: self.drawer.paintEvent(self, event)
 
+    def checkIfEmpty(self, position):
+        # check if theres a snake there
+        # for player in self.Players:  DA NE BIH IMAO OVO SAM DODAO GRID
+        #     for snake in player.Snakes:
+        #         for snakePart in snake.snakePosition:
+        #             if position == snakePart:
+        #                 return False
+        return self.Grid[position[0]][position[1]] == GridElementType.Empty
+
+
     #def timerEvent(self, event):
     #    if event.timerId() == self.timer.timerId():
     #        self.Movement.move_snake(self)
