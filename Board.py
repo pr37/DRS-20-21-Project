@@ -51,6 +51,11 @@ class Board(QFrame):
     def generateStartingFood(self):
         pass
 
+    def nextPlayerTurn(self):
+        index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
+        self.turnPlayer = self.Players[index]
+        # print("Na redu je igrac " + str(index))
+
     def updateGrid(self, newPos, oldPos, type):
         for pos in newPos:
             self.Grid[pos[0]][pos[1]] = type
