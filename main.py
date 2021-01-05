@@ -10,6 +10,7 @@ from PyQt5.QtCore import QThread, QProcess
 
 from welcome_scene import *
 from about_scene import *
+from mode_scene import *
 
 
 
@@ -30,15 +31,18 @@ class MainWindow(QGraphicsView):
         self.welcomeScene.aboutGameBtn.clicked.connect(self.AboutGame)
         self.welcomeScene.exitBtn.clicked.connect(self.ExitGame)
         self.aboutScene = None
+        self.modeScene = None
         self.setScene(self.welcomeScene)
 
         self.show()
 
     def NewGame(self):
-        self.close()
+        self.modeScene = ModeScene(self, self.widths, self.heights)
+        self.modeScene.returnBtn.clicked.connect(self.ReturnToWelcome)
+        self.setScene(self.modeScene)
 
     def AboutGame(self):
-        self.aboutScene = AboutSene(self, self.widths, self.heights)
+        self.aboutScene = AboutScene(self, self.widths, self.heights)
         self.aboutScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.aboutScene)
 
