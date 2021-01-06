@@ -38,9 +38,12 @@ class MainWindow(QGraphicsView):
 
     def NewGame(self):
         self.modeScene = ModeScene(self, self.widths, self.heights)
+        self.modeScene.playButton.clicked.connect(self.PlayGame)
+        """
         self.modeScene.twoPlayerBtn.clicked.connect(self.TwoPlayers)
         self.modeScene.threePlayerBtn.clicked.connect(self.ThreePlayers)
         self.modeScene.fourPlayerBtn.clicked.connect(self.FourPlayers)
+        """
         self.modeScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.modeScene)
 
@@ -58,6 +61,12 @@ class MainWindow(QGraphicsView):
         self.setScene(self.welcomeScene)
 
 
+    def PlayGame(self):
+        numOfPlayers = self.modeScene.playerComboBox.currentText()
+        print("broj igraca: ", numOfPlayers)
+        game = SnakeGame()
+        self.close()
+    """
     def TwoPlayers(self):
         game = SnakeGame()
         self.close()
@@ -69,7 +78,7 @@ class MainWindow(QGraphicsView):
 
     def FourPlayers(self):
         self.close()
-
+    """
 
 if __name__ == '__main__':
     app = QApplication([])
