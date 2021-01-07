@@ -54,6 +54,28 @@ class Movement():
         board.update()
 
     @staticmethod
+    def move_food(board, food, direction, steps):
+        position = food.position
+        for i in range(steps):
+            position = Movement.calculateNewPos(position, direction)
+            if checkCollision(board, position[0][0], position[0][1]) != GridElementType.Empty:
+                break
+        food.position = position
+
+    @staticmethod
+    def calculateNewPos(position, direction):
+        if direction == MovementDirection.Left:
+            return [[position[0][0] - 1, position[0][1]]]
+        elif direction == MovementDirection.Right:
+            return [[position[0][0] + 1, position[0][1]]]
+        elif direction == MovementDirection.Down:
+            return [[position[0][0], position[0][1] + 1]]
+        else: #Up
+            return [[position[0][0], position[0][1] - 1]]
+
+
+
+    @staticmethod
     def move_snake(board, snake):
         snakePickedFood = False
         if snake.direction == MovementDirection.Left:

@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QBasicTimer, Qt
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtGui import QPainter, QColor, QKeyEvent
 from PyQt5.QtWidgets import QFrame
 import random
 
@@ -57,7 +57,7 @@ class Board(QFrame):
             self.spawnFood()
 
     def nextPlayerTurn(self):
-        for food in self.Foods: #ispomeraj svaku hranu pri zavrsenju svakog poteza
+        for food in self.Foods:  # ispomeraj svaku hranu pri zavrsenju svakog poteza
             food.move()
 
         index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
@@ -79,7 +79,7 @@ class Board(QFrame):
                 self.Foods = newFoodList
 
     def start(self):
-        self.timer.start(Board.SPEED, self) #na 150 msec radi tajmer
+        self.timer.start(Board.SPEED, self)  # na 150 msec radi tajmer
 
     def square_width(self):
         return self.contentsRect().width() / Board.WIDTHINBLOCKS
@@ -93,12 +93,12 @@ class Board(QFrame):
 
     def paintEvent(self, event):
         self.Drawer.paintEvent(self, event)
-        self.eventHappened = False  #pazi za hranu
+        self.eventHappened = False  # pazi za hranu
 
     def spawnFood(self):
         while True:
-            rndWidth = random.randint(0, self.WIDTHINBLOCKS-1)
-            rndHeight = random.randint(0, self.HEIGHTINBLOCKS-1)
+            rndWidth = random.randint(0, self.WIDTHINBLOCKS - 1)
+            rndHeight = random.randint(0, self.HEIGHTINBLOCKS - 1)
 
             position = [rndWidth, rndHeight]
             if self.checkIfEmpty(position):
@@ -115,8 +115,7 @@ class Board(QFrame):
         #                 return False
         return self.Grid[position[0]][position[1]] == GridElementType.Empty
 
-
-    #def timerEvent(self, event):
+    # def timerEvent(self, event):
     #    if event.timerId() == self.timer.timerId():
     #        self.Movement.move_snake(self)
     #        self.update()
