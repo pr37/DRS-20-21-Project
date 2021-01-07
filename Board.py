@@ -26,7 +26,7 @@ class Board(QFrame):
         self.config = Config()
         self.setFocusPolicy(Qt.StrongFocus)
         self.numberOfPlayers = numberOfPlayers
-
+        self.eventHappened = False
         self.Grid = self.createGrid()
 
         for i in range(numberOfPlayers):
@@ -78,9 +78,13 @@ class Board(QFrame):
     def square_height(self):
         return self.contentsRect().height() / Board.HEIGHTINBLOCKS
 
-    def keyPressEvent(self, event) -> None: self.Movement.keyPressEvent(self, event)
+    def keyPressEvent(self, event):
+        self.Movement.keyPressEvent(self, event)
+        self.eventHappened = True
 
-    def paintEvent(self, event) -> None: self.Drawer.paintEvent(self, event)
+    def paintEvent(self, event):
+        self.Drawer.paintEvent(self, event)
+        self.eventHappened = False  #pazi za hranu
 
     def checkIfEmpty(self, position):
         # check if theres a snake there

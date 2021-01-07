@@ -3,19 +3,21 @@
 # HOW TO: Run -> Edit configuration -> Allow parallel run -> pokreni vise instanci
 
 import sys
-import socket
+import socket, pickle
 import selectors
 import types
+import time
 from multiprocessing import Process
-
+import threading
+from GameVariables import *
 from PyQt5.QtWidgets import QApplication
 from SnakeGame import SnakeGame
 
+
 sel = selectors.DefaultSelector()
 messages = [b"Message 1 from client.", b"Message 2 from client."] #this will be changed with data from the game
-#game data variables...
-#
-#
+eventHappened = False
+game = None
 
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
@@ -49,12 +51,9 @@ def service_connection(key, mask):
             sel.unregister(sock)
             sock.close()
     if mask & selectors.EVENT_WRITE:
-        if not data.outb and data.messages:
-            data.outb = data.messages.pop(0)
-        if data.outb:
-            print("sending", repr(data.outb), "to connection", data.connid)
-            sent = sock.send(data.outb)  # Should be ready to write
-            data.outb = data.outb[sent:]
+        if game is not None:
+            if game.sboard.eventHappened is True:
+                sent = sock.send(bytes(pickle.dumps(game_data)))
 
 
 # call the main app here
@@ -64,27 +63,37 @@ port = 65432  # Port to listen on (non-privileged ports are > 1023)
 num_conns = 2  # This is supposed to be equal to number of players !!!!!!!!!!!!!!!!!!!!!!
 start_connections(host, int(port), int(num_conns))
 
+
 def start_game():
     app = QApplication([])
+    global game
     game = SnakeGame()
     sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
-    p = Process(target=start_game)      #main game is a separate process
-    p.start()
-    p.join()
+def connection_loop():
+    try:
+        while True:
+            events = sel.select(timeout=1)
+            if events:
+                for key, mask in events:
+                    service_connection(key, mask)
+            # Check for a socket being monitored to continue.
+            if not sel.get_map():
+                break
+    except KeyboardInterrupt:
+        print("caught keyboard interrupt, exiting")
+    finally:
+        sel.close()
 
-try:
-    while True:
-        events = sel.select(timeout=1)
-        if events:
-            for key, mask in events:
-                service_connection(key, mask)
-        # Check for a socket being monitored to continue.
-        if not sel.get_map():
-            break
-except KeyboardInterrupt:
-    print("caught keyboard interrupt, exiting")
-finally:
-    sel.close()
+
+if __name__ == '__main__':
+    global game_data, game_data_bytes
+    game_data = GameVariables()
+
+    p = threading.Thread(target=start_game,)      # p = Process(target=start_game)
+    s = threading.Thread(target=connection_loop, )
+    p.start()
+    s.start()
+    p.join()
+    s.join()
