@@ -60,7 +60,7 @@ class Movement:
             position = Movement.calculateNewPos(board.WIDTHINBLOCKS, board.HEIGHTINBLOCKS, position, direction)
             if checkCollision(board, position[0][0], position[0][1]) != GridElementType.Empty:
                 break
-        food.position = position
+        return position
 
     @staticmethod
     def calculateNewPos(width, height, position, direction):
@@ -92,7 +92,7 @@ class Movement:
             snake.current_x_head, snake.current_y_head = newPosX, newPosY
             snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
             if snakePickedFood:
-                board.foodUpdate([], [newPosX, newPosY])
+                board.gameObjectUpdate([], [newPosX, newPosY], GridElementType.Food)
 
             head = [snake.current_x_head, snake.current_y_head]
             snake.snakePosition.insert(0, head)

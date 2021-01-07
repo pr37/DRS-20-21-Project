@@ -6,7 +6,7 @@ import random
 from Config import Config
 from GridElement import GridElementType
 
-from Movement import Movement
+from Movement import Movement, MovementDirection
 from Player import Player
 from Drawer import Drawer
 from Food import Food
@@ -36,7 +36,7 @@ class Board(QFrame):
             snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
             snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
             positions = [snake1, snake2, snake3]
-            directions = [1, 1, 1]
+            directions = [MovementDirection.Up,MovementDirection.Up, MovementDirection.Up]
             self.Players.append(Player(self, i, 3, positions, directions))
 
         self.turnPlayer = self.Players[0]
@@ -49,8 +49,11 @@ class Board(QFrame):
     def snakeUpdate(self, snakePosition, oldPosition):
         self.updateGrid(snakePosition, oldPosition, GridElementType.SnakePart)
 
-    def foodUpdate(self, foodPosition, oldPosition):
-        self.updateGrid(foodPosition, oldPosition, GridElementType.Food)
+    # def foodUpdate(self, foodPosition, oldPosition):
+    #     self.updateGrid(foodPosition, oldPosition, GridElementType.Food)
+
+    def gameObjectUpdate(self, position, oldPosition, type):
+        self.updateGrid(position, oldPosition, type)
 
     def generateStartingFood(self):
         for _ in range(self.config.startingFoodCount):
