@@ -23,7 +23,6 @@ class Food:
         steps = getRandSteps()
         self.board.Movement.move_food(self.board, self, direction, steps)
         self.updateBoard()
-        # TODO move food to a valid slot moving  1-3 tiles in a random direction
 
     def updateBoard(self):
         self.board.foodUpdate(self.position, self.oldPosition)

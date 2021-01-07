@@ -47,6 +47,8 @@ class Movement:
                 return
             else:
                 snake.direction = MovementDirection.Up
+        else: #bad key
+            return
         board.Movement.move_snake(board, snake)
         player.snakeMoved(snake)
         board.update()
