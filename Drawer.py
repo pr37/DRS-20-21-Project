@@ -26,6 +26,11 @@ class Drawer:
             Drawer.draw_food(painter, rect.left() + food.position[0][0] * board.square_width(),
                              boardtop + food.position[0][1] * board.square_height(), board.square_width(),
                              board.square_height())
+        #
+        # for wall in board.Walls:
+        #     Drawer.draw_food(painter, rect.left() + wall.position[0][0] * board.square_width(),
+        #                          boardtop + wall.position[0][1] * board.square_height(), board.square_width(),
+        #                          board.square_height())
 
         # Drawer.draw_food(painter,100,100,22,22)
 
