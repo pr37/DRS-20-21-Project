@@ -1,5 +1,6 @@
 import random
 
+from GameObject import GameObject
 from Movement import MovementDirection
 
 
@@ -11,7 +12,7 @@ def getRandSteps() -> int:
     return random.randint(1, 3)
 
 
-class Food:
+class Food(GameObject):
     def __init__(self, board, position):
         self.oldPosition = []
         self.position = [position]
