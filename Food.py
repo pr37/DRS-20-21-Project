@@ -8,6 +8,7 @@ class Food:
         self.updateBoard()
 
     def move(self):
+
         self.updateBoard()
         #TODO move food to a valid slot moving  1-3 tiles in a random direction
 

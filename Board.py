@@ -57,8 +57,12 @@ class Board(QFrame):
             self.spawnFood()
 
     def nextPlayerTurn(self):
+        for food in self.Foods: #ispomeraj svaku hranu pri zavrsenju svakog poteza
+            food.move()
+
         index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
+
         # print("Na redu je igrac " + str(index))
 
     def updateGrid(self, newPos, oldPos, type):
