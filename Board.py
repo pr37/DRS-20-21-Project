@@ -9,6 +9,7 @@ from GridElement import GridElementType
 from Movement import Movement
 from Player import Player
 from Drawer import Drawer
+from Food import Food
 
 
 class Board(QFrame):
@@ -39,7 +40,7 @@ class Board(QFrame):
             self.Players.append(Player(self, i, 3, positions, directions))
 
         self.turnPlayer = self.Players[0]
-        #self.generateStartingFood()
+        self.generateStartingFood()
 
     def createGrid(self):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
@@ -48,8 +49,12 @@ class Board(QFrame):
     def snakeUpdate(self, snakePosition, oldPosition):
         self.updateGrid(snakePosition, oldPosition, GridElementType.SnakePart)
 
+    def foodUpdate(self, foodPosition, oldPosition):
+        self.updateGrid(foodPosition, oldPosition, GridElementType.Food)
+
     def generateStartingFood(self):
-        pass
+        for _ in range(self.config.startingFoodCount):
+            self.spawnFood()
 
     def nextPlayerTurn(self):
         index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
@@ -85,6 +90,17 @@ class Board(QFrame):
     def paintEvent(self, event):
         self.Drawer.paintEvent(self, event)
         self.eventHappened = False  #pazi za hranu
+
+    def spawnFood(self):
+        while True:
+            rndWidth = random.randint(0, self.WIDTHINBLOCKS-1)
+            rndHeight = random.randint(0, self.HEIGHTINBLOCKS-1)
+
+            position = [rndWidth, rndHeight]
+            if self.checkIfEmpty(position):
+                break
+
+        self.Foods.append(Food(self, position))
 
     def checkIfEmpty(self, position):
         # check if theres a snake there
