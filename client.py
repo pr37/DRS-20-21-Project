@@ -57,20 +57,33 @@ def service_connection(key, mask):
                 sent = sock.send(pickle.dumps(game_data))
                 print("SENT IN BYTES")
                 print(sent)
+                game.sboard.eventHappened = False
 
-# call the main app here
 
 host = "127.0.0.1"  # Standard loopback interface address (localhost)
 port = 65432  # Port to listen on (non-privileged ports are > 1023)
-num_conns = 2  # This is supposed to be equal to number of players !!!!!!!!!!!!!!!!!!!!!!
+num_conns = 1
 start_connections(host, int(port), int(num_conns))
 
 
 def fill_game_variables():
     game_data.Grid = game.sboard.Grid
+    game_data.playerTurn = game.sboard.turnPlayerIndex
+    game_data.snakeTurn = game.sboard.Players[game_data.playerTurn].turnSnakeIndex
     game_data.numOfPlayers = game.sboard.numberOfPlayers
     for val in game.sboard.Foods:
         game_data.foodPositions.append(val.position)
+    for val in game.sboard.Players[0].Snakes:
+        game_data.player1Snakes.append([val.snakePosition,val.direction])
+    if (len(game.sboard.Players) == 2):
+        for val in game.sboard.Players[1].Snakes:
+            game_data.player2Snakes.append([val.snakePosition, val.direction])
+    if (len(game.sboard.Players) == 3):
+        for val in game.sboard.Players[2].Snakes:
+            game_data.player3Snakes.append([val.snakePosition, val.direction])
+    if (len(game.sboard.Players) == 4):
+        for val in game.sboard.Players[3].Snakes:
+            game_data.player4Snakes.append([val.snakePosition, val.direction])
 
 
 def start_game():

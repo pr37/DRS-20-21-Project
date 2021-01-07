@@ -40,6 +40,7 @@ class Board(QFrame):
             self.Players.append(Player(self, i, 3, positions, directions))
 
         self.turnPlayer = self.Players[0]
+        self.turnPlayerIndex = 0
         self.generateStartingFood()
 
     def createGrid(self):
@@ -59,6 +60,7 @@ class Board(QFrame):
     def nextPlayerTurn(self):
         index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
+        self.turnPlayerIndex = index
         # print("Na redu je igrac " + str(index))
 
     def updateGrid(self, newPos, oldPos, type):

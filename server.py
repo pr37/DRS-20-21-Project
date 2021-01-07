@@ -29,13 +29,14 @@ def unpickle_data(recieved):
     game_data = pickle.loads(recieved)
     print("PLAYERS NUM")
     print(game_data.numOfPlayers)
-
+    print(game_data.snakeTurn)
+    print(game_data.player1Snakes[0])
 
 def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(6000)  # Should be ready to read
+        recv_data = sock.recv(9000)  # Should be ready to read
         if recv_data:
             data.outb += recv_data
         else:
@@ -45,7 +46,7 @@ def service_connection(key, mask):
         if data.outb:  #TODO DA SALJE SVM IGRACIMA UPDATE
             #print("echoing", repr(data.outb), "to", data.addr)
             sent = sock.send(data.outb)  # Should be ready to write
-            unpickle_data(data.outb)
+            unpickle_data(recv_data)
             data.outb = data.outb[sent:]
 
 

@@ -6,6 +6,11 @@ class GameVariables:
         self.foodPositions = []
         self.playerTurn = 0
         self.snakeTurn = 0
+        self.player1Snakes = [] #pozicija+direkcija [[poz,dir],...]
+        self.player2Snakes = []
+        self.player3Snakes = []
+        self.player4Snakes = []
+
 
 
 class MutableEventWrapper:
