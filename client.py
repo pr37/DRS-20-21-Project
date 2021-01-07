@@ -38,18 +38,23 @@ def start_connections(host, port, num_conns):
         sel.register(sock, events, data=data)
 
 
+def unpickle_data(recieved):
+    global got_from_server      #TODO ovo gurni na Board
+    got_from_server = pickle.loads(recieved)
+    print("PLAYERS NUM")
+    print(got_from_server.numOfPlayers)
+    print(got_from_server.snakeTurn)
+    print(got_from_server.player1Snakes[0])
+
+
 def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(1024)  # Should be ready to read
+        recv_data = sock.recv(7000)  # Should be ready to read
         if recv_data:
-            print("received", repr(recv_data), "from connection", data.connid)
             data.recv_total += len(recv_data)
-        if not recv_data or data.recv_total == data.msg_total:
-            print("closing connection", data.connid)
-            sel.unregister(sock)
-            sock.close()
+            unpickle_data(recv_data)
     if mask & selectors.EVENT_WRITE:
         if game is not None:
             if game.sboard.eventHappened is True:
