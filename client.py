@@ -54,8 +54,9 @@ def service_connection(key, mask):
         if game is not None:
             if game.sboard.eventHappened is True:
                 fill_game_variables()
-                sent = sock.send(bytes(pickle.dumps(game_data)))
-
+                sent = sock.send(pickle.dumps(game_data))
+                print("SENT IN BYTES")
+                print(sent)
 
 # call the main app here
 
@@ -66,16 +67,7 @@ start_connections(host, int(port), int(num_conns))
 
 
 def fill_game_variables():
-    for val in game.sboard.Players[0].Snakes:
-        game_data.player1Snakes.append(val.snakePosition)
-    for val in game.sboard.Players[1].Snakes:
-        game_data.player2Snakes.append(val.snakePosition)
-    if len(game.sboard.Players) == 3:
-        for val in game.sboard.Players[2].Snakes:
-            game_data.player3Snakes.append(val.snakePosition)
-    if len(game.sboard.Players) == 4:
-        for val in game.sboard.Players[3].Snakes:
-            game_data.player4Snakes.append(val.snakePosition)
+    game_data.Grid = game.sboard.Grid
     game_data.numOfPlayers = game.sboard.numberOfPlayers
     for val in game.sboard.Foods:
         game_data.foodPositions.append(val.position)

@@ -10,6 +10,7 @@ import sys
 import socket
 import selectors
 import types
+import pickle
 
 sel = selectors.DefaultSelector()
 
@@ -23,21 +24,28 @@ def accept_wrapper(sock):
     sel.register(conn, events, data=data)
 
 
+def unpickle_data(recieved):
+    global game_data
+    game_data = pickle.loads(recieved)
+    print("PLAYERS NUM")
+    print(game_data.numOfPlayers)
+
+
 def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(1024)  # Should be ready to read
+        recv_data = sock.recv(6000)  # Should be ready to read
         if recv_data:
             data.outb += recv_data
         else:
             print("closing connection to", data.addr)
-            sel.unregister(sock)
-            sock.close()
+
     if mask & selectors.EVENT_WRITE:
-        if data.outb:
-            print("echoing", repr(data.outb), "to", data.addr)
+        if data.outb:  #TODO DA SALJE SVM IGRACIMA UPDATE
+            #print("echoing", repr(data.outb), "to", data.addr)
             sent = sock.send(data.outb)  # Should be ready to write
+            unpickle_data(data.outb)
             data.outb = data.outb[sent:]
 
 

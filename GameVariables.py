@@ -1,11 +1,8 @@
 
 class GameVariables:
     def __init__(self):
-        self.numOfPlayers = 0  #TODO stavi posle na 0 i povezi sa UI da kupi odatle
-        self.player1Snakes = []
-        self.player2Snakes = []
-        self.player3Snakes = []
-        self.player4Snakes = []
+        self.numOfPlayers = 2  #TODO stavi posle na 0 i povezi sa UI da kupi odatle
+        self.Grid = []
         self.foodPositions = []
         self.playerTurn = 0
         self.snakeTurn = 0
