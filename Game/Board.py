@@ -4,14 +4,14 @@ import random
 
 from Service.Config import Config
 from Service.GameVariables import GameVariables
-from GridElement import GridElementType
+from Game.GameObjects.GridElement import GridElementType
 
 from Movement import Movement, MovementDirection
-from Player import Player
-from Drawer import Drawer
-from Food import Food
-from Snake import Snake
-from Wall import Wall
+from Game.GameObjects.Player import Player
+from Game.GameObjects.Drawer import Drawer
+from Game.GameObjects.Food import Food
+from Game.GameObjects.Snake import Snake
+from Game.GameObjects.Wall import Wall
 
 
 class Board(QFrame):

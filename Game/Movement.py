@@ -1,8 +1,8 @@
 import enum
 
-from PyQt5.QtCore import QBasicTimer, Qt
+from PyQt5.QtCore import Qt
 
-from GridElement import GridElementType
+from Game.GameObjects.GridElement import GridElementType
 
 
 class MovementDirection(enum.Enum):

@@ -1,8 +1,8 @@
 import random
 
-from GameObject import GameObject
-from GridElement import GridElementType
-from Movement import MovementDirection
+from Game.GameObjects.GameObject import GameObject
+from Game.GameObjects.GridElement import GridElementType
+from Game.Movement import MovementDirection
 
 
 def getRandDirection() -> MovementDirection:

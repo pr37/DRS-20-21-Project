@@ -1,7 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 from Board import Board
-from Player import Player
 
 
 class SnakeGame(QMainWindow):

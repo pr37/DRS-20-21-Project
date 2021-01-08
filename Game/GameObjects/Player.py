@@ -1,5 +1,5 @@
 from Service.Config import Config
-from Snake import Snake
+from Game.GameObjects.Snake import Snake
 
 
 class Player(Config):

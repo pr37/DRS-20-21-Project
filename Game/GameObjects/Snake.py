@@ -1,7 +1,5 @@
-import random
-
-from GridElement import GridElementType
-from Movement import MovementDirection
+from Game.GameObjects.GridElement import GridElementType
+from Game.Movement import MovementDirection
 
 
 def getLeftDirection(direction):
