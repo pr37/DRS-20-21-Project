@@ -4,12 +4,14 @@ from PyQt5.QtWidgets import QFrame
 import random
 
 from Config import Config
+from GameVariables import GameVariables
 from GridElement import GridElementType
 
 from Movement import Movement, MovementDirection
 from Player import Player
 from Drawer import Drawer
 from Food import Food
+from Snake import Snake
 from Wall import Wall
 
 
@@ -132,3 +134,42 @@ class Board(QFrame):
     #    if event.timerId() == self.timer.timerId():
     #        self.Movement.move_snake(self)
     #        self.update()
+
+    def updateGameState(self, newGameState):
+        if newGameState is not GameVariables:
+            return
+
+        self.Grid = newGameState.Grid
+        self.Foods = []
+        for foodPos in newGameState.foodPositions:
+            self.Foods.append(Food(self, foodPos))
+
+        self.turnPlayer = self.Players[newGameState.playerTurn]
+        self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
+
+        self.Players[0].Snakes = []
+        for snake in newGameState.player1Snakes:
+            pos = snake[0]
+            direction = snake[1]
+            self.Players[0].Snakes.append(Snake(self, pos, direction))
+
+        self.Players[1].Snakes = []
+        for snake in newGameState.player2Snakes:
+            pos = snake[0]
+            direction = snake[1]
+            self.Players[1].Snakes.append(Snake(self, pos, direction))
+
+        i = len(self.Players)
+        if i >= 3:
+            self.Players[2].Snakes = []
+            for snake in newGameState.player3Snakes:
+                pos = snake[0]
+                direction = snake[1]
+                self.Players[2].Snakes.append(Snake(self, pos, direction))
+
+        if i >= 4:
+            self.Players[3].Snakes = []
+            for snake in newGameState.player4Snakes:
+                pos = snake[0]
+                direction = snake[1]
+                self.Players[3].Snakes.append(Snake(self, pos, direction))
