@@ -24,12 +24,20 @@ class Player(Config):
 
     def snakeMoved(self, snake):
         if snake.move():
-            index = (self.Snakes.index(snake) + 1) % len(self.Snakes)
-            if index == 0:
-                self.canEnd = True
-            self.turnSnake = self.Snakes[index]
-            self.turnSnakeIndex = index
+            self.nextSnake(snake)
+
+    def nextSnake(self, snake):
+        index = (self.Snakes.index(snake) + 1) % len(self.Snakes)
+        if index == 0:
+            self.canEnd = True
+        self.turnSnake = self.Snakes[index]
+        self.turnSnakeIndex = index
 
     def resetSnakeMovements(self):
         for snake in self.Snakes:
             snake.resetMoves()
+
+    def snakeDied(self, snake):
+        if self.turnSnake == snake:
+            self.nextSnake(snake)
+        self.Snakes.remove(snake)

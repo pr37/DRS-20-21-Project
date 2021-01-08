@@ -50,7 +50,6 @@ class Movement:
         else: #bad key
             return
         board.Movement.move_snake(board, snake)
-        player.snakeMoved(snake)
         board.update()
 
     @staticmethod
@@ -87,20 +86,29 @@ class Movement:
         newPos = Movement.calculateNewPos(board.WIDTHINBLOCKS, board.HEIGHTINBLOCKS,
                                           [[snake.current_x_head, snake.current_y_head]], snake.direction)
         newPosX, newPosY = newPos[0][0], newPos[0][1]
-        if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
-                checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+
+        newGridElement = checkCollision(board, newPosX, newPosY)
+        if newGridElement == GridElementType.Empty or \
+                newGridElement == GridElementType.Food:
             snake.current_x_head, snake.current_y_head = newPosX, newPosY
-            snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+            snakePickedFood = newGridElement == GridElementType.Food
             if snakePickedFood:
                 board.gameObjectUpdate([], [newPosX, newPosY], GridElementType.Food)
 
             head = [snake.current_x_head, snake.current_y_head]
             snake.snakePosition.insert(0, head)
 
-        if not snakePickedFood:
-            snake.oldPosition = snake.snakePosition.pop()
-        else:
-            snake.moves += 1
+            if not snakePickedFood:
+                snake.oldPosition = snake.snakePosition.pop()
+            else:
+                snake.moves += 1
+
+            board.turnPlayer.snakeMoved(snake)
+
+        elif newGridElement == GridElementType.Wall or newGridElement == GridElementType.SnakePart:
+            board.turnPlayer.snakeDied(snake)
+
+
 
     #
     # @staticmethod
