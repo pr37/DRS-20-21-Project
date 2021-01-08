@@ -173,3 +173,9 @@ class Board(QFrame):
                 pos = snake[0]
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
+
+
+    def checkSnakesCaptures(self):
+        for player in self.Players:
+            for snake in player.Snakes:
+                snake.checkCapture()
