@@ -41,10 +41,13 @@ def start_connections(host, port, num_conns):
 def unpickle_data(recieved):
     global got_from_server      #TODO ovo gurni na Board
     got_from_server = pickle.loads(recieved)
+    game.sboard.updateGameState(got_from_server)
     print("PLAYERS NUM")
     print(got_from_server.numOfPlayers)
     print(got_from_server.snakeTurn)
     print(got_from_server.player1Snakes[0])
+    print(got_from_server.player1Snakes[1])
+    print(got_from_server.player1Snakes[2][0])
 
 
 def service_connection(key, mask):
@@ -79,7 +82,7 @@ def fill_game_variables():
     for val in game.sboard.Foods:
         game_data.foodPositions.append(val.position)
     for val in game.sboard.Players[0].Snakes:
-        game_data.player1Snakes.append([val.snakePosition,val.direction])
+        game_data.player1Snakes.append([val.snakePosition, val.direction])
     if (len(game.sboard.Players) == 2):
         for val in game.sboard.Players[1].Snakes:
             game_data.player2Snakes.append([val.snakePosition, val.direction])

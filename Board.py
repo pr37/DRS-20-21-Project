@@ -136,8 +136,8 @@ class Board(QFrame):
     #        self.update()
 
     def updateGameState(self, newGameState):
-        if newGameState is not GameVariables:
-            return
+        #if newGameState is not GameVariables:
+        #    return
 
         self.Grid = newGameState.Grid
         self.Foods = []
