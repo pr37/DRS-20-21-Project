@@ -78,6 +78,7 @@ class Board(QFrame):
         self.turnPlayer = self.Players[index]
         self.turnPlayerIndex = index
 
+        self.update()
         # print("Na redu je igrac " + str(index))
 
     def updateGrid(self, newPos, oldPos, type):
