@@ -5,12 +5,6 @@ from Config import Config
 import random
 
 
-# def draw_square(painter, x, y, w, h, player):  # crta kockicu zmijice
-#   #color = QColor(0x302213)  # TODO zakucaj boje u config
-#   painter.fillRect(x + 1, y + 1, w - 2,
-#                    h - 2, color)
-
-
 class Drawer:
     WIDTHINBLOCKS = 60
     HEIGHTINBLOCKS = 40
