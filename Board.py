@@ -136,7 +136,7 @@ class Board(QFrame):
     #        self.update()
 
     def updateGameState(self, newGameState):
-        #if newGameState is not GameVariables:
+        # if newGameState is not GameVariables:
         #    return
 
         self.Grid = newGameState.Grid
@@ -173,3 +173,5 @@ class Board(QFrame):
                 pos = snake[0]
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
+
+        #self.Drawer.paintEvent(self, "nista") //maybe?
