@@ -85,13 +85,14 @@ class Board(QFrame):
             self.Grid[pos[0]][pos[1]] = type
 
         if oldPos != [] and oldPos is not None:
-            self.Grid[oldPos[0]][oldPos[1]] = GridElementType.Empty
-            if type == GridElementType.Food:
-                newFoodList = []
-                for food in self.Foods:
-                    if food.position != [oldPos]:
-                        newFoodList.append(food)
-                self.Foods = newFoodList
+            for position in oldPos:
+                self.Grid[position[0]][position[1]] = GridElementType.Empty
+                if type == GridElementType.Food:
+                    newFoodList = []
+                    for food in self.Foods:
+                        if food.position != [position]:
+                            newFoodList.append(food)
+                    self.Foods = newFoodList
 
     def start(self):
         self.timer.start(Board.SPEED, self)  # na 150 msec radi tajmer
@@ -174,8 +175,8 @@ class Board(QFrame):
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
 
-
     def checkSnakesCaptures(self):
         for player in self.Players:
             for snake in player.Snakes:
-                snake.checkCapture()
+                if snake.checkCapture():
+                    player.snakeDied(snake)

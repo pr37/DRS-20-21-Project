@@ -22,7 +22,7 @@ class Food(GameObject):
         direction = getRandDirection()
         steps = getRandSteps()
         self.oldPosition = self.position
-        self.oldPosition = [self.oldPosition[0][0], self.oldPosition[0][1]] #hack fix
+        # self.oldPosition = [self.oldPosition[0][0], self.oldPosition[0][1]] #hack fix LAZEM
         self.position = self.board.Movement.move_food(self.board, self, direction, steps)
         super(Food, self).updateBoard()
 

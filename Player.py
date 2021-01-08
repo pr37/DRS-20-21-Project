@@ -40,4 +40,5 @@ class Player(Config):
     def snakeDied(self, snake):
         if self.turnSnake == snake:
             self.nextSnake(snake)
+        snake.die()
         self.Snakes.remove(snake)
