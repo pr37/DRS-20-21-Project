@@ -7,7 +7,7 @@ from Player import Player
 class SnakeGame(QMainWindow):
     def __init__(self):
         super(SnakeGame, self).__init__()
-        # self.sboard = Board(self, 2)  # start the game with 2 players
+        self.sboard = Board(self, 2)  # start the game with 2 players
 
         # primeri za pravljanje table
         # [x,y] 0,0 koordinata je gore levo (ne dole levo), x ide do 60, y do 40
@@ -24,7 +24,7 @@ class SnakeGame(QMainWindow):
         #                 [12, 12]]
         # self.sboard = Board(self, 3, startingSnakesPosition=exampleSnakes, startingFoods=exampleFoods, startingWalls=exampleWalls)
 
-        self.sboard.setStyleSheet("QWidget {background-image: url(background.jpg)}")
+        self.sboard.setStyleSheet("QWidget {background-image: url(Images/background.jpg)}")
         self.setCentralWidget(self.sboard)
         self.setWindowTitle('DRS Snake Game')
         # self.setStyleSheet("QWidget {background-image: url(background.jpg)}")

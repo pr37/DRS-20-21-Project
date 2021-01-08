@@ -6,12 +6,10 @@ import sys
 import socket, pickle
 import selectors
 import types
-import time
-from multiprocessing import Process
 import threading
 from GameVariables import *
 from PyQt5.QtWidgets import QApplication
-from SnakeGame import SnakeGame
+from Game.SnakeGame import SnakeGame
 
 
 sel = selectors.DefaultSelector()

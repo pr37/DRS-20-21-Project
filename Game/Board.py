@@ -1,10 +1,9 @@
 from PyQt5.QtCore import QBasicTimer, Qt
-from PyQt5.QtGui import QPainter, QColor, QKeyEvent
 from PyQt5.QtWidgets import QFrame
 import random
 
-from Config import Config
-from GameVariables import GameVariables
+from Service.Config import Config
+from Service.GameVariables import GameVariables
 from GridElement import GridElementType
 
 from Movement import Movement, MovementDirection

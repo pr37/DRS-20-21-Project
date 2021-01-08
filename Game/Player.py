@@ -1,4 +1,4 @@
-from Config import Config
+from Service.Config import Config
 from Snake import Snake
 
 

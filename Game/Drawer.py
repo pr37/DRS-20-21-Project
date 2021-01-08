@@ -1,8 +1,6 @@
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import QFrame
 from PyQt5.QtCore import *
-from Config import Config
-import random
+from Service.Config import Config
 
 
 # def draw_square(painter, x, y, w, h, player):  # crta kockicu zmijice
@@ -105,15 +103,15 @@ class Drawer:
         if not isHead:
             if playerCurrent == 0:
                 # color = Drawer.config.snakeColor1
-                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("diamond.png"))
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\diamond.png"))
             elif playerCurrent == 1:
                 # color = Drawer.config.snakeColor2
-                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("gold.png"))
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\gold.png"))
             elif playerCurrent == 2:
                 # color = Drawer.config.snakeColor3
-                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("sapphire.png"))
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\sapphire.png"))
             else:
-                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("emerald.png"))
+                painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\emerald.png"))
             # painter.fillRect(x + 1, y + 1, w - 2,
             #                h - 2, color)
         elif not isSelected:
@@ -122,13 +120,13 @@ class Drawer:
             Drawer.draw_head_selected(painter, x, y, w, h)
 
     def draw_head(painter, x, y, w, h):
-        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("snakeheadUnselected.png"))
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\snakeheadUnselected.png"))
 
     def draw_wall(painter, x, y, w, h):
-        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("wall.png"))
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\wall.png"))
 
     def draw_head_selected(painter, x, y, w, h):
-        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("snakeHead.png"))
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\snakeHead.png"))
 
     def draw_food(painter, x, y, w, h):
-        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("food.png"))
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\food.png"))
