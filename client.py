@@ -51,7 +51,7 @@ def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(7000)  # Should be ready to read
+        recv_data = sock.recv(10000)  # Should be ready to read
         if recv_data:
             data.recv_total += len(recv_data)
             unpickle_data(recv_data)

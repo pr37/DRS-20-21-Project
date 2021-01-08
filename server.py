@@ -13,7 +13,7 @@ import types
 import pickle
 
 sel = selectors.DefaultSelector()
-
+clients = set()
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
@@ -22,6 +22,7 @@ def accept_wrapper(sock):
     data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
     sel.register(conn, events, data=data)
+    clients.add(conn)
 
 
 def unpickle_data(recieved):
@@ -36,7 +37,7 @@ def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(9000)  # Should be ready to read
+        recv_data = sock.recv(10000)  # Should be ready to read
         if recv_data:
             data.outb += recv_data
         else:
@@ -45,7 +46,9 @@ def service_connection(key, mask):
     if mask & selectors.EVENT_WRITE:
         if data.outb:  #TODO DA SALJE SVM IGRACIMA UPDATE
             #print("echoing", repr(data.outb), "to", data.addr)
-            sent = sock.send(data.outb)  # Should be ready to write
+            #sent = sock.send(data.outb)  # Should be ready to write
+            for c in clients:
+                sent = c.send(data.outb)
             unpickle_data(recv_data)
             data.outb = data.outb[sent:]
 
