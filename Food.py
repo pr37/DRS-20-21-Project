@@ -1,15 +1,28 @@
+import random
+
+from GameObject import GameObject
+from GridElement import GridElementType
+from Movement import MovementDirection
 
 
-class Food:
+def getRandDirection() -> MovementDirection:
+    return MovementDirection(random.randint(1, 4))
+
+
+def getRandSteps() -> int:
+    return random.randint(1, 3)
+
+
+class Food(GameObject):
     def __init__(self, board, position):
-        self.oldPosition = []
-        self.position = [position]
-        self.board = board
-        self.updateBoard()
+        super(Food, self).__init__(board, position, GridElementType.Food)
+        self.type = GridElementType.Food
 
     def move(self):
-        self.updateBoard()
-        #TODO move food to a valid slot moving  1-3 tiles in a random direction
+        direction = getRandDirection()
+        steps = getRandSteps()
+        self.oldPosition = self.position
+        self.oldPosition = [self.oldPosition[0][0], self.oldPosition[0][1]] #hack fix
+        self.position = self.board.Movement.move_food(self.board, self, direction, steps)
+        super(Food, self).updateBoard()
 
-    def updateBoard(self):
-        self.board.foodUpdate(self.position, self.oldPosition)
