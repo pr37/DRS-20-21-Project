@@ -7,7 +7,23 @@ from Player import Player
 class SnakeGame(QMainWindow):
     def __init__(self):
         super(SnakeGame, self).__init__()
-        self.sboard = Board(self, 2)  # start the game with 2 players
+        # self.sboard = Board(self, 2)  # start the game with 2 players
+
+        # primeri za pravljanje table
+        # [x,y] 0,0 koordinata je gore levo (ne dole levo), x ide do 60, y do 40
+        # exampleSnakes = [[[[5, 13], [5, 14], [5, 15]], [[7, 13], [7, 14]]],  # dve zmije prvom igracu
+        #                  [[[9, 13], [9, 14]]],
+        #                  [[[14, 13], [14, 14]]]]
+        # exampleFoods = [[11, 9],
+        #                 [24, 20],
+        #                 [24, 21],
+        #                 [1, 15],
+        #                 [50, 8]]
+        # exampleWalls = [[10, 10],
+        #                 [11, 11],
+        #                 [12, 12]]
+        # self.sboard = Board(self, 3, startingSnakesPosition=exampleSnakes, startingFoods=exampleFoods, startingWalls=exampleWalls)
+
         self.sboard.setStyleSheet("QWidget {background-image: url(background.jpg)}")
         self.setCentralWidget(self.sboard)
         self.setWindowTitle('DRS Snake Game')
@@ -41,19 +57,19 @@ class FormWidget(QWidget):
         self.labelPlayersNum = QLabel("Number of players: " + str(parent.sboard.numberOfPlayers))
         self.button1 = QPushButton("End turn")
         self.button1.setStyleSheet("QPushButton{"
-                                      "color: white; background-color: green; font:bold; border-style: outset; border-width: 2px; border-color: grey"
-                                      "}"
-                                      "QPushButton:hover{"
-                                      "background-color: #3F7FBF"
-                                      "}")
+                                   "color: white; background-color: green; font:bold; border-style: outset; border-width: 2px; border-color: grey"
+                                   "}"
+                                   "QPushButton:hover{"
+                                   "background-color: #3F7FBF"
+                                   "}")
         self.button1.resize(20, 30)
         self.button1.move(50, 50)
         self.button1.clicked.connect(self.endTurnClick)
         self.layout.addWidget(self.labelPlayersNum)
         self.layout.addWidget(self.labelPlayer)
         self.layout.addWidget(self.button1)
-        #self.button2 = QPushButton("Button 2")
-        #self.layout.addWidget(self.button2)
+        # self.button2 = QPushButton("Button 2")
+        # self.layout.addWidget(self.button2)
 
         self.setLayout(self.layout)
 

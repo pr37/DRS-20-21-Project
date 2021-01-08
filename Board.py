@@ -23,7 +23,16 @@ class Board(QFrame):
     Movement = Movement()
     Drawer = Drawer()
 
-    def __init__(self, parent, numberOfPlayers):
+    # parent ignorisi, qt stvar
+    # numberOfPlayers broj igraca
+    # startingSnakesPosition pocetna pozicija zmija , u obliku matrice tj liste listi, gde je npr.
+    # startingSnakesPosition[0] lista pozicija zmija prvog igraca (nesto kao [[[5,6],[6,6],[7,6]] , [[x,y]]])
+    # to znaci da imaju dve zmije, jedna ima tri dela na poljima 5,6.. i druga koja ima samo glavu na polju x,y
+    # PODRAZUMEVA SE DA ZMIJA GLEDA NA GORE
+    # startingFoods lista pozicija pocetne hrane (nesto kao [[10,10],[15,17],[20,21]] )
+    # znaci imaju tri hrane na tim poljima
+    # startingWalls slicno kao za food samo za zid
+    def __init__(self, parent, numberOfPlayers, startingSnakesPosition=None, startingFoods=None, startingWalls=None):
         super(Board, self).__init__(parent)
         self.Foods = []
         self.Players = []
@@ -34,22 +43,43 @@ class Board(QFrame):
         self.eventHappened = False
         self.Grid = self.createGrid()
 
-        for i in range(numberOfPlayers):
-            offset = i * 10
-            snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
-            snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
-            snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
-            positions = [snake1, snake2, snake3]
-            directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
-            self.Players.append(Player(self, i, 3, positions, directions))
+        if startingSnakesPosition is None:
+            for i in range(numberOfPlayers):
+                offset = i * 10
+                snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
+                snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
+                snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
+                positions = [snake1, snake2, snake3]
+                directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
+                self.Players.append(Player(self, i, 3, positions, directions))
+        else:
+            for i in range(numberOfPlayers):
+                snakes = []
+                directions = []
+                for j in range(len(startingSnakesPosition[i])):
+                    if not startingSnakesPosition[i][j]:
+                        continue
+                    snakes.append(startingSnakesPosition[i][j])
+                    directions.append(MovementDirection.Up)
+                if not snakes:
+                    continue
+                self.Players.append((Player(self, i, len(snakes), snakes, directions)))
 
-        # hardcoded starting walls
-        for x in range(self.HEIGHTINBLOCKS):
-            self.Walls.append(Wall(self, [x, x]))
+        if startingWalls is None:
+            for x in range(self.HEIGHTINBLOCKS):
+                self.Walls.append(Wall(self, [x, x]))
+        else:
+            for wallPos in startingWalls:
+                self.Walls.append(Wall(self, wallPos))
 
         self.turnPlayer = self.Players[0]
         self.turnPlayerIndex = 0
-        self.generateStartingFood()
+
+        if startingFoods is None:
+            self.generateStartingFood()
+        else:
+            for foodPos in startingFoods:
+                self.Foods.append(Food(self, foodPos))
 
     def createGrid(self):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
