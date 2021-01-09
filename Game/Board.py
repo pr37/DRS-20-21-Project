@@ -15,9 +15,11 @@ from Game.GameObjects.Wall import Wall
 
 
 class Board(QFrame):
-    SPEED = 150
-    WIDTHINBLOCKS = 60
-    HEIGHTINBLOCKS = 40
+    config = Config()
+    SPEED = config.SPEED
+    WIDTHINBLOCKS = config.WIDTHINBLOCKS
+    HEIGHTINBLOCKS = config.HEIGHTINBLOCKS
+
     Timer = QBasicTimer()
     Movement = Movement()
     Drawer = Drawer()
@@ -41,6 +43,11 @@ class Board(QFrame):
         self.numberOfPlayers = numberOfPlayers
         self.eventHappened = False
         self.Grid = self.createGrid()
+        config = Config()
+        self.moveTime = config.moveTime
+        self.timeLeft = self.moveTime
+        self.timer = QBasicTimer()
+        self.parent = parent
 
         if startingSnakesPosition is None:
             for i in range(numberOfPlayers):
@@ -80,6 +87,8 @@ class Board(QFrame):
             for foodPos in startingFoods:
                 self.Foods.append(Food(self, foodPos))
 
+        self.start()
+
     def createGrid(self):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
         return grid
@@ -110,6 +119,7 @@ class Board(QFrame):
         self.turnPlayer = self.Players[index]
         self.turnPlayerIndex = index
 
+        self.timeLeft = self.moveTime
         self.update()
         # print("Na redu je igrac " + str(index))
 
@@ -128,7 +138,7 @@ class Board(QFrame):
                     self.Foods = newFoodList
 
     def start(self):
-        self.timer.start(Board.SPEED, self)  # na 150 msec radi tajmer
+        self.timer.start(Board.SPEED, self)
 
     def square_width(self):
         return self.contentsRect().width() / Board.WIDTHINBLOCKS
@@ -164,10 +174,14 @@ class Board(QFrame):
         #                 return False
         return self.Grid[position[0]][position[1]] == GridElementType.Empty
 
-    # def timerEvent(self, event):
-    #    if event.timerId() == self.timer.timerId():
-    #        self.Movement.move_snake(self)
-    #        self.update()
+    def timerEvent(self, event):
+        if event.timerId() == self.timer.timerId():
+            self.timeLeft -= 1
+            self.parent.updateLabel(self.timeLeft)
+            if self.timeLeft == 0:  # force end the turn
+                self.timeLeft = self.moveTime
+                print("isteklo vreme")
+                self.nextPlayerTurn()
 
     def updateGameState(self, newGameState):
         if newGameState is not GameVariables:
@@ -220,26 +234,8 @@ class Board(QFrame):
             self.gameOver()
 
     def gameOver(self):
-        if  len(self.Players) == 0:
-            pass #mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
+        if len(self.Players) == 0:
+            pass  # mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
 
-        print("Pobedio je igrac " + str(self.Players[0].Name) + " !") #TODO victory prozor
+        print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -45,6 +45,8 @@ class SnakeGame(QMainWindow):
         # self.sboard.start()
         self.show()
 
+    def updateLabel(self, time):
+        self.forma.updateLabel(time)
 
 class FormWidget(QWidget):
     def __init__(self, parent):
@@ -52,6 +54,7 @@ class FormWidget(QWidget):
         super(FormWidget, self).__init__()
         self.parent = parent
         self.layout = QVBoxLayout(self)
+        self.labelTime = QLabel("Time : inf s")
         self.labelPlayer = QLabel("Playing : Player " + str(parent.sboard.turnPlayer.Name))
         self.labelPlayersNum = QLabel("Number of players: " + str(parent.sboard.numberOfPlayers))
         self.previousSnake = QPushButton("Previous snake")
@@ -85,6 +88,7 @@ class FormWidget(QWidget):
         self.button1.resize(20, 30)
         self.button1.move(50, 50)
         self.button1.clicked.connect(self.endTurnClick)
+        self.layout.addWidget((self.labelTime))
         self.layout.addWidget(self.labelPlayersNum)
         self.layout.addWidget(self.labelPlayer)
         self.layout.addWidget(self.previousSnake)  # ja
@@ -107,3 +111,7 @@ class FormWidget(QWidget):
     def nextSnakeClick(self):
         self.parent.sboard.turnPlayer.nextSnake()
         self.parent.sboard.setFocus()
+
+    def updateLabel(self, time):
+        self.labelTime.setText("Time : " + str(time) + " s")
+        self.labelPlayer.setText("Playing : Player " + str(self.parent.sboard.turnPlayer.Name))
