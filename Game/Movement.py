@@ -23,6 +23,10 @@ class Movement:
         player = board.turnPlayer
 
         snake = player.turnSnake
+
+        if snake.moves <= 0:
+            return
+
         key = event.key()
         if key == Qt.Key_Left:
             if snake.direction == MovementDirection.Right:  # ako je isao desno ne moze levo
