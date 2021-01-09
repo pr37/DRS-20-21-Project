@@ -22,9 +22,6 @@ class Movement:
     def keyPressEvent(board, event):  # levo1 desno2 dole3 gore4
         player = board.turnPlayer
 
-        if player.canEnd:
-            return
-
         snake = player.turnSnake
         key = event.key()
         if key == Qt.Key_Left:

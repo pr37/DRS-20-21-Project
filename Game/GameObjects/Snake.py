@@ -40,7 +40,6 @@ class Snake:
         self.updateBoardOfPosition()
         self.moves -= 1
         if self.moves == 0:
-            self.moves = len(self.snakePosition)
             return True
         return False
 
