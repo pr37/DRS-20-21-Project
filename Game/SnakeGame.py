@@ -49,10 +49,29 @@ class SnakeGame(QMainWindow):
 class FormWidget(QWidget):
     def __init__(self, parent):
         super(FormWidget, self).__init__()
+        super(FormWidget, self).__init__()
         self.parent = parent
         self.layout = QVBoxLayout(self)
         self.labelPlayer = QLabel("Playing : Player " + str(parent.sboard.turnPlayer.Name))
         self.labelPlayersNum = QLabel("Number of players: " + str(parent.sboard.numberOfPlayers))
+        self.previousSnake = QPushButton("Previous snake")
+        self.previousSnake.setStyleSheet("QPushButton{"
+                                   "color: white; background-color: black; font:bold; border-style: outset; border-width: 2px; border-color: grey"
+                                   "}"
+                                   "QPushButton:hover{"
+                                   "background-color: #3F7FBF"
+                                   "}")
+        self.previousSnake.resize(10, 20)
+        self.previousSnake.move(40, 40)
+        self.nextSnake = QPushButton("Next snake")
+        self.nextSnake.setStyleSheet("QPushButton{"
+                                         "color: white; background-color: blue; font:bold; border-style: outset; border-width: 2px; border-color: grey"
+                                         "}"
+                                         "QPushButton:hover{"
+                                         "background-color: #3F7FBF"
+                                         "}")
+        self.nextSnake.resize(10, 20)
+        self.nextSnake.move(40, 40)
         self.button1 = QPushButton("End turn")
         self.button1.setStyleSheet("QPushButton{"
                                    "color: white; background-color: green; font:bold; border-style: outset; border-width: 2px; border-color: grey"
@@ -65,6 +84,8 @@ class FormWidget(QWidget):
         self.button1.clicked.connect(self.endTurnClick)
         self.layout.addWidget(self.labelPlayersNum)
         self.layout.addWidget(self.labelPlayer)
+        self.layout.addWidget(self.previousSnake)  # ja
+        self.layout.addWidget(self.nextSnake)  # ja
         self.layout.addWidget(self.button1)
         # self.button2 = QPushButton("Button 2")
         # self.layout.addWidget(self.button2)
