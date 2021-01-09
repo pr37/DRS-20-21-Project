@@ -38,8 +38,9 @@ class Player(Config):
             snake.resetMoves()
 
     def snakeDied(self, snake):
-        if self.turnSnake == snake:
-            self.nextSnake()
         snake.die()
         self.Snakes.remove(snake)
-
+        if len(self.Snakes) == 0: #nestalo mu je zmija, gameover
+            self.board.playerGameOver(self)
+        if self.turnSnake == snake:
+            self.nextSnake()
