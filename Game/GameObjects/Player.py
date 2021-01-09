@@ -22,11 +22,15 @@ class Player(Config):
             self.nextSnake()
 
     def nextSnake(self):
+        if len(self.Snakes) == 0:
+            return
         index = (self.Snakes.index(self.turnSnake) + 1) % len(self.Snakes)
         self.turnSnake = self.Snakes[index]
         self.turnSnakeIndex = index
 
     def prevSnake(self):
+        if len(self.Snakes) == 0:
+            return
         index = self.Snakes.index(self.turnSnake) - 1
         if index < 0:
             index = len(self.Snakes) - abs(index)
@@ -38,9 +42,8 @@ class Player(Config):
             snake.resetMoves()
 
     def snakeDied(self, snake):
-        snake.die()
-        self.Snakes.remove(snake)
-        if len(self.Snakes) == 0: #nestalo mu je zmija, gameover
-            self.board.playerGameOver(self)
         if self.turnSnake == snake:
             self.nextSnake()
+        snake.die()
+        self.Snakes.remove(snake)
+        self.board.playerLost(self)

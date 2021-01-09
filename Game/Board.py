@@ -210,3 +210,30 @@ class Board(QFrame):
             for snake in player.Snakes:
                 if snake.checkCapture():
                     player.snakeDied(snake)
+
+    def playerLost(self, player):
+        self.Players.remove(player)
+        if len(self.Players) == 0:
+            self.gameOver()
+
+    def gameOver(self):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
