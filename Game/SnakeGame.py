@@ -101,7 +101,9 @@ class FormWidget(QWidget):
         self.parent.sboard.setFocus()
 
     def previousSnakeClick(self):
+        self.parent.sboard.turnPlayer.prevSnake()
         self.parent.sboard.setFocus()
 
     def nextSnakeClick(self):
+        self.parent.sboard.turnPlayer.nextSnake()
         self.parent.sboard.setFocus()

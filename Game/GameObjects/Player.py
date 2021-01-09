@@ -26,6 +26,13 @@ class Player(Config):
         self.turnSnake = self.Snakes[index]
         self.turnSnakeIndex = index
 
+    def prevSnake(self):
+        index = self.Snakes.index(self.turnSnake) - 1
+        if index < 0:
+            index = len(self.Snakes) - abs(index)
+        self.turnSnake = self.Snakes[index]
+        self.turnSnakeIndex = index
+
     def resetSnakeMovements(self):
         for snake in self.Snakes:
             snake.resetMoves()
@@ -35,3 +42,4 @@ class Player(Config):
             self.nextSnake()
         snake.die()
         self.Snakes.remove(snake)
+

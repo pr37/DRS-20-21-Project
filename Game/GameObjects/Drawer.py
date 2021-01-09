@@ -56,8 +56,7 @@ class Drawer:
                 else:
                     isHead = False
 
-                if board.Players[1].turnSnake == snake and board.turnPlayer == board.Players[1] and board.Players[
-                    1].canEnd == False:
+                if board.Players[1].turnSnake == snake and board.turnPlayer == board.Players[1]:
                     isSelectedHead = True
                 else:
                     isSelectedHead = False
@@ -72,8 +71,7 @@ class Drawer:
                     else:
                         isHead = False
 
-                    if board.Players[2].turnSnake == snake and board.turnPlayer == board.Players[2] and board.Players[
-                        2].canEnd == False:
+                    if board.Players[2].turnSnake == snake and board.turnPlayer == board.Players[2]:
                         isSelectedHead = True
                     else:
                         isSelectedHead = False
@@ -89,8 +87,7 @@ class Drawer:
                     else:
                         isHead = False
 
-                    if board.Players[3].turnSnake == snake and board.turnPlayer == board.Players[3] and board.Players[
-                        3].canEnd == False:
+                    if board.Players[3].turnSnake == snake and board.turnPlayer == board.Players[3]:
                         isSelectedHead = True
                     else:
                         isSelectedHead = False
