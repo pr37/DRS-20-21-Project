@@ -61,6 +61,7 @@ class FormWidget(QWidget):
                                    "QPushButton:hover{"
                                    "background-color: #3F7FBF"
                                    "}")
+        self.previousSnake.clicked.connect(self.previousSnakeClick)
         self.previousSnake.resize(10, 20)
         self.previousSnake.move(40, 40)
         self.nextSnake = QPushButton("Next snake")
@@ -72,6 +73,8 @@ class FormWidget(QWidget):
                                          "}")
         self.nextSnake.resize(10, 20)
         self.nextSnake.move(40, 40)
+        self.nextSnake.clicked.connect(self.nextSnakeClick)
+
         self.button1 = QPushButton("End turn")
         self.button1.setStyleSheet("QPushButton{"
                                    "color: white; background-color: green; font:bold; border-style: outset; border-width: 2px; border-color: grey"
@@ -95,3 +98,9 @@ class FormWidget(QWidget):
     def endTurnClick(self):
         self.parent.sboard.turnPlayer.endTurn()
         self.labelPlayer.setText("Playing : Player " + str(self.parent.sboard.turnPlayer.Name))
+
+    def previousSnakeClick(self):
+        pass
+
+    def nextSnakeClick(self):
+        pass
