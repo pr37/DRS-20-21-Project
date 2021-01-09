@@ -32,68 +32,67 @@ class Drawer:
 
         # Drawer.draw_food(painter,100,100,22,22)
 
-        for players in board.Players:  # pls fix this mess
-            i = 0
-            for snake in board.Players[i].Snakes:
+        for player in board.Players:  # pls fix this mess
+            for snake in player.Snakes:
                 for pos in snake.snakePosition:
                     if snake.snakePosition[0] == pos:
                         isHead = True
                     else:
                         isHead = False
 
-                    if board.Players[i].turnSnake == snake and board.turnPlayer == board.Players[i]:
+                    if player.turnSnake == snake and board.turnPlayer == player:
                         isSelectedHead = True
                     else:
                         isSelectedHead = False
                     Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
                                        boardtop + pos[1] * board.square_height(), board.square_width(),
-                                       board.square_height(), board.Players[i].Name, isHead, isSelectedHead)
-
-        for snake in board.Players[1].Snakes:
-            for pos in snake.snakePosition:
-                if snake.snakePosition[0] == pos:
-                    isHead = True
-                else:
-                    isHead = False
-
-                if board.Players[1].turnSnake == snake and board.turnPlayer == board.Players[1]:
-                    isSelectedHead = True
-                else:
-                    isSelectedHead = False
-                Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
-                                   boardtop + pos[1] * board.square_height(), board.square_width(),
-                                   board.square_height(), board.Players[1].Name, isHead, isSelectedHead)
-        if len(board.Players) == 3:
-            for snake in board.Players[2].Snakes:
-                for pos in snake.snakePosition:
-                    if snake.snakePosition[0] == pos:
-                        isHead = True
-                    else:
-                        isHead = False
-
-                    if board.Players[2].turnSnake == snake and board.turnPlayer == board.Players[2]:
-                        isSelectedHead = True
-                    else:
-                        isSelectedHead = False
-                    Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
-                                       boardtop + pos[1] * board.square_height(), board.square_width(),
-                                       board.square_height(), board.Players[2].Name, isHead, isSelectedHead)
-
-        if len(board.Players) == 4:
-            for snake in board.Players[3].Snakes:
-                for pos in snake.snakePosition:
-                    if snake.snakePosition[0] == pos:
-                        isHead = True
-                    else:
-                        isHead = False
-
-                    if board.Players[3].turnSnake == snake and board.turnPlayer == board.Players[3]:
-                        isSelectedHead = True
-                    else:
-                        isSelectedHead = False
-                    Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
-                                       boardtop + pos[1] * board.square_height(), board.square_width(),
-                                       board.square_height(), board.Players[3].Name, isHead, isSelectedHead)
+                                       board.square_height(), player.Name, isHead, isSelectedHead)
+        #
+        # for snake in board.Players[1].Snakes:
+        #     for pos in snake.snakePosition:
+        #         if snake.snakePosition[0] == pos:
+        #             isHead = True
+        #         else:
+        #             isHead = False
+        #
+        #         if board.Players[1].turnSnake == snake and board.turnPlayer == board.Players[1]:
+        #             isSelectedHead = True
+        #         else:
+        #             isSelectedHead = False
+        #         Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
+        #                            boardtop + pos[1] * board.square_height(), board.square_width(),
+        #                            board.square_height(), board.Players[1].Name, isHead, isSelectedHead)
+        # if len(board.Players) == 3:
+        #     for snake in board.Players[2].Snakes:
+        #         for pos in snake.snakePosition:
+        #             if snake.snakePosition[0] == pos:
+        #                 isHead = True
+        #             else:
+        #                 isHead = False
+        #
+        #             if board.Players[2].turnSnake == snake and board.turnPlayer == board.Players[2]:
+        #                 isSelectedHead = True
+        #             else:
+        #                 isSelectedHead = False
+        #             Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
+        #                                boardtop + pos[1] * board.square_height(), board.square_width(),
+        #                                board.square_height(), board.Players[2].Name, isHead, isSelectedHead)
+        #
+        # if len(board.Players) == 4:
+        #     for snake in board.Players[3].Snakes:
+        #         for pos in snake.snakePosition:
+        #             if snake.snakePosition[0] == pos:
+        #                 isHead = True
+        #             else:
+        #                 isHead = False
+        #
+        #             if board.Players[3].turnSnake == snake and board.turnPlayer == board.Players[3]:
+        #                 isSelectedHead = True
+        #             else:
+        #                 isSelectedHead = False
+        #             Drawer.draw_square(painter, rect.left() + pos[0] * board.square_width(),
+        #                                boardtop + pos[1] * board.square_height(), board.square_width(),
+        #                                board.square_height(), board.Players[3].Name, isHead, isSelectedHead)
 
     def draw_square(painter, x, y, w, h, playerCurrent, isHead, isSelected):  # crta kockicu zmijice
         if not isHead:
