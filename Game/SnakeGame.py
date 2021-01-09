@@ -98,9 +98,10 @@ class FormWidget(QWidget):
     def endTurnClick(self):
         self.parent.sboard.turnPlayer.endTurn()
         self.labelPlayer.setText("Playing : Player " + str(self.parent.sboard.turnPlayer.Name))
+        self.parent.sboard.setFocus()
 
     def previousSnakeClick(self):
-        pass
+        self.parent.sboard.setFocus()
 
     def nextSnakeClick(self):
-        pass
+        self.parent.sboard.setFocus()
