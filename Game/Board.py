@@ -41,6 +41,8 @@ class Board(QFrame):
         self.numberOfPlayers = numberOfPlayers
         self.eventHappened = False
         self.Grid = self.createGrid()
+        self.clientsToPlayers = []
+        self.clientTurn = ''
 
         if startingSnakesPosition is None:
             for i in range(numberOfPlayers):
@@ -105,6 +107,7 @@ class Board(QFrame):
 
         index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
+        self.clientTurn = self.clientsToPlayers[index]
         self.turnPlayerIndex = index
 
         self.update()
@@ -134,8 +137,11 @@ class Board(QFrame):
         return self.contentsRect().height() / Board.HEIGHTINBLOCKS
 
     def keyPressEvent(self, event):
-        self.Movement.keyPressEvent(self, event)
-        self.eventHappened = True
+        if self.clientTurn == self.clientsToPlayers[self.turnPlayerIndex]:
+            self.Movement.keyPressEvent(self, event)
+            self.eventHappened = True
+        else:
+            print("Its not your turn, wait!")
 
     def paintEvent(self, event):
         self.Drawer.paintEvent(self, event)
@@ -167,13 +173,13 @@ class Board(QFrame):
     #        self.update()
 
     def updateGameState(self, newGameState):
-        if newGameState is not GameVariables:
-            return
+        #if newGameState is not GameVariables:
+       #     return
 
         self.Grid = newGameState.Grid
         self.Foods = []
         for foodPos in newGameState.foodPositions:
-            self.Foods.append(Food(self, foodPos))
+            self.Foods.append(Food(self, foodPos[0]))
 
         self.turnPlayer = self.Players[newGameState.playerTurn]
         self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
