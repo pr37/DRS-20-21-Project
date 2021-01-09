@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from Game.GameObjects.GridElement import GridElementType
 
 
-class MovementDirection(enum.Enum):
+class MovementDirection(enum.IntEnum):
     Left = 1
     Right = 2
     Down = 3
@@ -22,10 +22,11 @@ class Movement:
     def keyPressEvent(board, event):  # levo1 desno2 dole3 gore4
         player = board.turnPlayer
 
-        if player.canEnd:
+        snake = player.turnSnake
+
+        if snake.moves <= 0:
             return
 
-        snake = player.turnSnake
         key = event.key()
         if key == Qt.Key_Left:
             if snake.direction == MovementDirection.Right:  # ako je isao desno ne moze levo

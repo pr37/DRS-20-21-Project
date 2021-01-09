@@ -5,9 +5,9 @@ from Game.Movement import MovementDirection
 def getLeftDirection(direction):
     if direction == MovementDirection.Up:
         return MovementDirection.Left
-    elif direction == MovementDirection.Right:
+    if direction == MovementDirection.Right:
         return MovementDirection.Up
-    elif direction == MovementDirection.Down:
+    if direction == MovementDirection.Down:
         return MovementDirection.Right
     else:  # left
         return MovementDirection.Down
@@ -40,7 +40,6 @@ class Snake:
         self.updateBoardOfPosition()
         self.moves -= 1
         if self.moves == 0:
-            self.moves = len(self.snakePosition)
             return True
         return False
 
