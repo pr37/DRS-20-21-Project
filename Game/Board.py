@@ -103,7 +103,10 @@ class Board(QFrame):
 
         self.spawnFood()
 
-        index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
+        if self.turnPlayer not in self.Players:
+            index = (self.turnPlayerIndex + 1) % len(self.Players)
+        else:
+            index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
         self.turnPlayerIndex = index
 
@@ -213,12 +216,15 @@ class Board(QFrame):
 
     def playerLost(self, player):
         self.Players.remove(player)
-        if len(self.Players) == 0:
+        if len(self.Players) <= 1:
             self.gameOver()
 
     def gameOver(self):
-        pass
+        if  len(self.Players) == 0:
+            pass #mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
 
+        print("Pobedio je igrac " + str(self.Players[0].Name) + " !") #TODO victory prozor
+        print("Kraj igre")
 
 
 

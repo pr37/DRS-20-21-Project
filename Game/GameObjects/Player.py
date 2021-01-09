@@ -46,4 +46,5 @@ class Player(Config):
             self.nextSnake()
         snake.die()
         self.Snakes.remove(snake)
-        self.board.playerLost(self)
+        if len(self.Snakes) == 0:
+            self.board.playerLost(self)
