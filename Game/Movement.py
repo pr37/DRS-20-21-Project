@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from Game.GameObjects.GridElement import GridElementType
 
 
-class MovementDirection(enum.Enum):
+class MovementDirection(enum.IntEnum):
     Left = 1
     Right = 2
     Down = 3
