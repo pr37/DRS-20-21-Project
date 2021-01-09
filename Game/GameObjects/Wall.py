@@ -1,5 +1,5 @@
-from GameObject import GameObject
-from GridElement import GridElementType
+from Game.GameObjects.GameObject import GameObject
+from Game.GameObjects.GridElement import GridElementType
 
 
 class Wall(GameObject):

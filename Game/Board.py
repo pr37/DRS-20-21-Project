@@ -1,18 +1,17 @@
 from PyQt5.QtCore import QBasicTimer, Qt
-from PyQt5.QtGui import QPainter, QColor, QKeyEvent
 from PyQt5.QtWidgets import QFrame
 import random
 
-from Config import Config
-from GameVariables import GameVariables
-from GridElement import GridElementType
+from Service.Config import Config
+from Service.GameVariables import GameVariables
+from Game.GameObjects.GridElement import GridElementType
 
 from Movement import Movement, MovementDirection
-from Player import Player
-from Drawer import Drawer
-from Food import Food
-from Snake import Snake
-from Wall import Wall
+from Game.GameObjects.Player import Player
+from Game.GameObjects.Drawer import Drawer
+from Game.GameObjects.Food import Food
+from Game.GameObjects.Snake import Snake
+from Game.GameObjects.Wall import Wall
 
 
 class Board(QFrame):
@@ -23,7 +22,16 @@ class Board(QFrame):
     Movement = Movement()
     Drawer = Drawer()
 
-    def __init__(self, parent, numberOfPlayers):
+    # parent ignorisi, qt stvar
+    # numberOfPlayers broj igraca
+    # startingSnakesPosition pocetna pozicija zmija , u obliku matrice tj liste listi, gde je npr.
+    # startingSnakesPosition[0] lista pozicija zmija prvog igraca (nesto kao [[[5,6],[6,6],[7,6]] , [[x,y]]])
+    # to znaci da imaju dve zmije, jedna ima tri dela na poljima 5,6.. i druga koja ima samo glavu na polju x,y
+    # PODRAZUMEVA SE DA ZMIJA GLEDA NA GORE
+    # startingFoods lista pozicija pocetne hrane (nesto kao [[10,10],[15,17],[20,21]] )
+    # znaci imaju tri hrane na tim poljima
+    # startingWalls slicno kao za food samo za zid
+    def __init__(self, parent, numberOfPlayers, startingSnakesPosition=None, startingFoods=None, startingWalls=None):
         super(Board, self).__init__(parent)
         self.Foods = []
         self.Players = []
@@ -34,22 +42,43 @@ class Board(QFrame):
         self.eventHappened = False
         self.Grid = self.createGrid()
 
-        for i in range(numberOfPlayers):
-            offset = i * 10
-            snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
-            snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
-            snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
-            positions = [snake1, snake2, snake3]
-            directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
-            self.Players.append(Player(self, i, 3, positions, directions))
+        if startingSnakesPosition is None:
+            for i in range(numberOfPlayers):
+                offset = i * 10
+                snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
+                snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
+                snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
+                positions = [snake1, snake2, snake3]
+                directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
+                self.Players.append(Player(self, i, 3, positions, directions))
+        else:
+            for i in range(numberOfPlayers):
+                snakes = []
+                directions = []
+                for j in range(len(startingSnakesPosition[i])):
+                    if not startingSnakesPosition[i][j]:
+                        continue
+                    snakes.append(startingSnakesPosition[i][j])
+                    directions.append(MovementDirection.Up)
+                if not snakes:
+                    continue
+                self.Players.append((Player(self, i, len(snakes), snakes, directions)))
 
-        # hardcoded starting walls
-        for x in range(self.HEIGHTINBLOCKS):
-            self.Walls.append(Wall(self, [x, x]))
+        if startingWalls is None:
+            for x in range(self.HEIGHTINBLOCKS):
+                self.Walls.append(Wall(self, [x, x]))
+        else:
+            for wallPos in startingWalls:
+                self.Walls.append(Wall(self, wallPos))
 
         self.turnPlayer = self.Players[0]
         self.turnPlayerIndex = 0
-        self.generateStartingFood()
+
+        if startingFoods is None:
+            self.generateStartingFood()
+        else:
+            for foodPos in startingFoods:
+                self.Foods.append(Food(self, foodPos))
 
     def createGrid(self):
         grid = [[GridElementType.Empty] * self.HEIGHTINBLOCKS for _ in range(self.WIDTHINBLOCKS)]
@@ -78,6 +107,7 @@ class Board(QFrame):
         self.turnPlayer = self.Players[index]
         self.turnPlayerIndex = index
 
+        self.update()
         # print("Na redu je igrac " + str(index))
 
     def updateGrid(self, newPos, oldPos, type):
@@ -85,13 +115,14 @@ class Board(QFrame):
             self.Grid[pos[0]][pos[1]] = type
 
         if oldPos != [] and oldPos is not None:
-            self.Grid[oldPos[0]][oldPos[1]] = GridElementType.Empty
-            if type == GridElementType.Food:
-                newFoodList = []
-                for food in self.Foods:
-                    if food.position != [oldPos]:
-                        newFoodList.append(food)
-                self.Foods = newFoodList
+            for position in oldPos:
+                self.Grid[position[0]][position[1]] = GridElementType.Empty
+                if type == GridElementType.Food:
+                    newFoodList = []
+                    for food in self.Foods:
+                        if food.position != [position]:
+                            newFoodList.append(food)
+                    self.Foods = newFoodList
 
     def start(self):
         self.timer.start(Board.SPEED, self)  # na 150 msec radi tajmer
@@ -136,10 +167,13 @@ class Board(QFrame):
     #        self.update()
 
     def updateGameState(self, newGameState):
+        if newGameState is not GameVariables:
+            return
+
         self.Grid = newGameState.Grid
         self.Foods = []
         for foodPos in newGameState.foodPositions:
-            self.Foods.append(Food(self, foodPos[0]))
+            self.Foods.append(Food(self, foodPos))
 
         self.turnPlayer = self.Players[newGameState.playerTurn]
         self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
@@ -171,4 +205,8 @@ class Board(QFrame):
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
 
-        #self.Drawer.paintEvent(self, "nista") //maybe?
+    def checkSnakesCaptures(self):
+        for player in self.Players:
+            for snake in player.Snakes:
+                if snake.checkCapture():
+                    player.snakeDied(snake)

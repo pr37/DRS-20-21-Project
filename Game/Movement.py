@@ -1,8 +1,8 @@
 import enum
 
-from PyQt5.QtCore import QBasicTimer, Qt
+from PyQt5.QtCore import Qt
 
-from GridElement import GridElementType
+from Game.GameObjects.GridElement import GridElementType
 
 
 class MovementDirection(enum.Enum):
@@ -12,11 +12,11 @@ class MovementDirection(enum.Enum):
     Up = 4
 
 
-def checkCollision(board, x, y) -> GridElementType:
-    return board.Grid[x][y]
-
-
 class Movement:
+
+    @staticmethod
+    def checkCollision(board, x, y) -> GridElementType:
+        return board.Grid[x][y]
 
     @staticmethod
     def keyPressEvent(board, event):  # levo1 desno2 dole3 gore4
@@ -47,10 +47,10 @@ class Movement:
                 return
             else:
                 snake.direction = MovementDirection.Up
-        else: #bad key
+        else:  # bad key
             return
         board.Movement.move_snake(board, snake)
-        player.snakeMoved(snake)
+        board.checkSnakesCaptures()
         board.update()
 
     @staticmethod
@@ -58,7 +58,7 @@ class Movement:
         position = food.position
         for i in range(steps):
             position = Movement.calculateNewPos(board.WIDTHINBLOCKS, board.HEIGHTINBLOCKS, position, direction)
-            if checkCollision(board, position[0][0], position[0][1]) != GridElementType.Empty:
+            if Movement.checkCollision(board, position[0][0], position[0][1]) != GridElementType.Empty:
                 break
         return position
 
@@ -87,20 +87,29 @@ class Movement:
         newPos = Movement.calculateNewPos(board.WIDTHINBLOCKS, board.HEIGHTINBLOCKS,
                                           [[snake.current_x_head, snake.current_y_head]], snake.direction)
         newPosX, newPosY = newPos[0][0], newPos[0][1]
-        if checkCollision(board, newPosX, newPosY) == GridElementType.Empty or \
-                checkCollision(board, newPosX, newPosY) == GridElementType.Food:
+
+        newGridElement = Movement.checkCollision(board, newPosX, newPosY)
+        if newGridElement == GridElementType.Empty or \
+                newGridElement == GridElementType.Food:
             snake.current_x_head, snake.current_y_head = newPosX, newPosY
-            snakePickedFood = checkCollision(board, newPosX, newPosY) == GridElementType.Food
+            snakePickedFood = newGridElement == GridElementType.Food
             if snakePickedFood:
-                board.gameObjectUpdate([], [newPosX, newPosY], GridElementType.Food)
+                board.gameObjectUpdate([], [[newPosX, newPosY]], GridElementType.Food)
+
 
             head = [snake.current_x_head, snake.current_y_head]
             snake.snakePosition.insert(0, head)
 
-        if not snakePickedFood:
-            snake.oldPosition = snake.snakePosition.pop()
-        else:
-            snake.moves += 1
+            if not snakePickedFood:
+                snake.oldPosition = snake.snakePosition.pop()
+                snake.oldPosition = [snake.oldPosition] #hack fix
+            else:
+                snake.moves += 1
+
+            board.turnPlayer.snakeMoved(snake)
+
+        elif newGridElement == GridElementType.Wall or newGridElement == GridElementType.SnakePart:
+            board.turnPlayer.snakeDied(snake)
 
     #
     # @staticmethod

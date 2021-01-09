@@ -6,20 +6,16 @@ import sys
 import socket, pickle
 import selectors
 import types
-import time
-from multiprocessing import Process
 import threading
 from GameVariables import *
 from PyQt5.QtWidgets import QApplication
-from SnakeGame import SnakeGame
-import uuid
+from Game.SnakeGame import SnakeGame
 
 
 sel = selectors.DefaultSelector()
 messages = [b"Message 1 from client.", b"Message 2 from client."] #this will be changed with data from the game
 eventHappened = False
 game = None
-client_id = str(uuid.uuid4())
 
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
@@ -43,17 +39,10 @@ def start_connections(host, port, num_conns):
 def unpickle_data(recieved):
     global got_from_server      #TODO ovo gurni na Board
     got_from_server = pickle.loads(recieved)
-    if got_from_server.client_id != client_id:
-        game.sboard.updateGameState(got_from_server)
-
-        print("PLAYERS NUM")
-        print(got_from_server.numOfPlayers)
-        print(got_from_server.snakeTurn)
-        print(got_from_server.player1Snakes[0])
-        print(got_from_server.player1Snakes[1])
-        print(got_from_server.player1Snakes[2][0])
-    else:
-        print("It was my turn, will not send")
+    print("PLAYERS NUM")
+    print(got_from_server.numOfPlayers)
+    print(got_from_server.snakeTurn)
+    print(got_from_server.player1Snakes[0])
 
 
 def service_connection(key, mask):
@@ -81,27 +70,20 @@ start_connections(host, int(port), int(num_conns))
 
 
 def fill_game_variables():
-    #game_data = GameVariables()
-    game_data.client_id = client_id
     game_data.Grid = game.sboard.Grid
     game_data.playerTurn = game.sboard.turnPlayerIndex
     game_data.snakeTurn = game.sboard.Players[game_data.playerTurn].turnSnakeIndex
     game_data.numOfPlayers = game.sboard.numberOfPlayers
-    game_data.foodPositions = []
     for val in game.sboard.Foods:
         game_data.foodPositions.append(val.position)
-    game_data.player1Snakes = []
     for val in game.sboard.Players[0].Snakes:
-        game_data.player1Snakes.append([val.snakePosition, val.direction])
-    game_data.player2Snakes = []
+        game_data.player1Snakes.append([val.snakePosition,val.direction])
     if (len(game.sboard.Players) == 2):
         for val in game.sboard.Players[1].Snakes:
             game_data.player2Snakes.append([val.snakePosition, val.direction])
-    game_data.player3Snakes = []
     if (len(game.sboard.Players) == 3):
         for val in game.sboard.Players[2].Snakes:
             game_data.player3Snakes.append([val.snakePosition, val.direction])
-    game_data.player4Snakes = []
     if (len(game.sboard.Players) == 4):
         for val in game.sboard.Players[3].Snakes:
             game_data.player4Snakes.append([val.snakePosition, val.direction])
