@@ -43,6 +43,7 @@ def start_connections(host, port, num_conns):
 def unpickle_data(recieved):
     global got_from_server      #TODO ovo gurni na Board
     got_from_server = pickle.loads(recieved)
+    game.sboard.clientsToPlayers = got_from_server.clientsToPlayers
     if got_from_server != game_data:
         if got_from_server.client_id != client_id:
             game.sboard.updateGameState(got_from_server)
@@ -60,7 +61,7 @@ def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(10000)  # Should be ready to read
+        recv_data = sock.recv(20000)  # Should be ready to read
         if recv_data:
             data.recv_total += len(recv_data)
             unpickle_data(recv_data)
@@ -113,7 +114,7 @@ def start_game():
     app = QApplication([])
     global game
     game = SnakeGame()
-    game.sboard.clientsToPlayers.append(client_id)
+    game.sboard.clientsToPlayers.append(client_id) #ovo treba npr u server da se cuva
     if (game.sboard.clientTurn == ''):
         game.sboard.clientTurn = client_id
     sys.exit(app.exec_())

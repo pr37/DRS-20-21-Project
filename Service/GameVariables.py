@@ -11,6 +11,7 @@ class GameVariables:
         self.player3Snakes = []
         self.player4Snakes = []
         self.client_id = ''
+        self.clientsToPlayers = []
 
 
 

@@ -15,6 +15,15 @@ import pickle
 sel = selectors.DefaultSelector()
 clients = set()
 
+
+class clientMemo:
+    def __init__(self):
+        self.clientsToPlayers = []
+
+
+client_memo = clientMemo()
+
+
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     print("accepted connection from", addr)
@@ -28,6 +37,8 @@ def accept_wrapper(sock):
 def unpickle_data(recieved):
     global game_data
     game_data = pickle.loads(recieved)
+    if game_data.client_id not in client_memo.clientsToPlayers:
+        client_memo.clientsToPlayers.append(game_data.client_id)
     print("PLAYERS NUM")
     print(game_data.numOfPlayers)
     print(game_data.snakeTurn)
@@ -37,7 +48,7 @@ def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(10000)  # Should be ready to read
+        recv_data = sock.recv(20000)  # Should be ready to read
         if recv_data:
             data.outb += recv_data
         else:
@@ -47,9 +58,11 @@ def service_connection(key, mask):
         if data.outb:  #TODO DA SALJE SVM IGRACIMA UPDATE
             #print("echoing", repr(data.outb), "to", data.addr)
             #sent = sock.send(data.outb)  # Should be ready to write
-            for c in clients:
-                sent = c.send(data.outb)
             unpickle_data(recv_data)
+            game_data.clientsToPlayers = client_memo.clientsToPlayers
+            pickled_data = pickle.dumps(game_data)
+            for c in clients:
+                sent = c.send(pickled_data)  #data.outb
             data.outb = data.outb[sent:]
 
 

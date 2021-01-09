@@ -13,4 +13,4 @@ class Config:
         self.SPEED = 1000
         self.WIDTHINBLOCKS = 60
         self.HEIGHTINBLOCKS = 40
-        self.moveTime = 30 #in seconds
+        self.moveTime = 600 #in seconds
