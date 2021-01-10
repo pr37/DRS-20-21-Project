@@ -20,6 +20,11 @@ class Drawer:
         rect = board.contentsRect()  # povrsina izmedju margina widgeta
         boardtop = rect.bottom() - Drawer.HEIGHTINBLOCKS * board.square_height()
 
+        for powerUp in board.PowerUps:
+            Drawer.draw_powerUp(painter, rect.left() + powerUp.position[0][0] * board.square_width(),
+                                boardtop + powerUp.position[0][1] * board.square_height(), board.square_width(),
+                                board.square_height())
+
         for food in board.Foods:
             Drawer.draw_food(painter, rect.left() + food.position[0][0] * board.square_width(),
                              boardtop + food.position[0][1] * board.square_height(), board.square_width(),
@@ -125,3 +130,7 @@ class Drawer:
 
     def draw_food(painter, x, y, w, h):
         painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\food.png"))
+
+    def draw_powerUp(painter, x, y, w, h):
+        painter.drawImage(QRect(x + 1, y + 1, w, h), QImage("Images\\Golden_Apple.png"))
+
