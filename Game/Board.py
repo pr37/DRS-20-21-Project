@@ -2,7 +2,7 @@ from PyQt5.QtCore import QBasicTimer, Qt
 from PyQt5.QtWidgets import QFrame
 import random
 
-from Game.GameObjects.PowerUp import PowerUp
+from Game.GameObjects.PowerUp import PowerUp, PowerEffects
 from Service.Config import Config
 from Service.GameVariables import GameVariables
 from Game.GameObjects.GridElement import GridElementType
@@ -132,11 +132,12 @@ class Board(QFrame):
         # print("Na redu je igrac " + str(index))
 
     def updatePowerUp(self):
-        survived = []
+        died = []
         for powerUp in self.PowerUps:
-            if not powerUp.update():
-                survived.append(powerUp)
-        self.PowerUps = survived
+            if powerUp.update():
+                died.append(powerUp)
+        for power in died:
+            self.gameObjectUpdate([], power.position, power.type)
 
         if self.turnCount % self.powerUpSpawnTimer == 0:
             self.spawnPowerUp()
@@ -165,6 +166,12 @@ class Board(QFrame):
                         if food.position != [position]:
                             newFoodList.append(food)
                     self.Foods = newFoodList
+                elif type == GridElementType.PowerUp:
+                    newPowerList= []
+                    for power in self.PowerUps:
+                        if power.position != [position]:
+                            newPowerList.append(power)
+                    self.PowerUps = newPowerList
 
     def start(self):
         self.timer.start(Board.SPEED, self)
@@ -268,3 +275,8 @@ class Board(QFrame):
 
         print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")
+
+    def determinePowerUp(self, position):
+        for powerUps in self.PowerUps:
+            if powerUps.position == position:
+                return powerUps.determineEffect() == PowerEffects.Grow

@@ -118,8 +118,10 @@ class Movement:
                 snake.snakePosition.insert(0, head)
                 snake.moves += 1
                 board.turnPlayer.snakeMoved(snake)
+                board.gameObjectUpdate([], [[newPosX, newPosY]], GridElementType.PowerUp)
             else:
                 board.turnPlayer.snakeDied(snake)
+                board.gameObjectUpdate([], [[newPosX, newPosY]], GridElementType.PowerUp)
 
 
 
