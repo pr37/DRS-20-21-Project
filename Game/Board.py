@@ -38,6 +38,7 @@ class Board(QFrame):
         self.Foods = []
         self.Players = []
         self.Walls = []
+        self.PowerUps = []
         self.config = Config()
         self.setFocusPolicy(Qt.StrongFocus)
         self.numberOfPlayers = numberOfPlayers
