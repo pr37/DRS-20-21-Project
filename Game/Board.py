@@ -2,6 +2,7 @@ from PyQt5.QtCore import QBasicTimer, Qt
 from PyQt5.QtWidgets import QFrame
 import random
 
+from Game.GameObjects.PowerUp import PowerUp
 from Service.Config import Config
 from Service.GameVariables import GameVariables
 from Game.GameObjects.GridElement import GridElementType
@@ -49,6 +50,10 @@ class Board(QFrame):
         self.timeLeft = self.moveTime
         self.timer = QBasicTimer()
         self.parent = parent
+        self.chanceForDeath = config.chanceForDeath
+        self.powerUpSpawnTimer = config.powerUpSpawnTimer
+        self.powerUpLiveTimer = config.powerUpLiveTimer
+        self.turnCount = 0
 
         if startingSnakesPosition is None:
             for i in range(numberOfPlayers):
@@ -121,8 +126,33 @@ class Board(QFrame):
         self.turnPlayerIndex = index
 
         self.timeLeft = self.moveTime
+        self.turnCount += 1
+        self.updatePowerUp()
         self.update()
         # print("Na redu je igrac " + str(index))
+
+    def updatePowerUp(self):
+        if self.turnCount % self.powerUpSpawnTimer == 0:
+            self.spawnPowerUp()
+
+        toRemove = []
+        for powerUp in self.PowerUps:
+            if powerUp.update():
+                toRemove.append(powerUp)
+
+        if toRemove:
+            self.PowerUps.remove(toRemove)
+
+    def spawnPowerUp(self):
+        while True:
+            rndWidth = random.randint(0, self.WIDTHINBLOCKS - 1)
+            rndHeight = random.randint(0, self.HEIGHTINBLOCKS - 1)
+
+            position = [rndWidth, rndHeight]
+            if self.checkIfEmpty(position):
+                break
+
+        self.PowerUps.append(PowerUp(self, position, self.powerUpLiveTimer, self.chanceForDeath))
 
     def updateGrid(self, newPos, oldPos, type):
         for pos in newPos:

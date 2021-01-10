@@ -14,3 +14,6 @@ class Config:
         self.WIDTHINBLOCKS = 60
         self.HEIGHTINBLOCKS = 40
         self.moveTime = 30 #in seconds
+        self.chanceForDeath = 10
+        self.powerUpSpawnTimer = 2 #in turns
+        self.powerUpLiveTimer = 2
