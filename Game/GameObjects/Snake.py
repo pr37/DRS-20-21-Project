@@ -59,22 +59,28 @@ class Snake:
         frontPos = self.board.Movement.calculateNewPos(self.board.WIDTHINBLOCKS, self.board.HEIGHTINBLOCKS,
                                                        headPos, self.direction)
 
-        if self.board.Movement.checkCollision(self.board, frontPos[0][0],
-                                              frontPos[0][1]) != GridElementType.SnakePart:
+        targetGrid = self.board.Movement.checkCollision(self.board, frontPos[0][0],
+                                                        frontPos[0][1])
+
+        if targetGrid != GridElementType.SnakePart and targetGrid != GridElementType.Wall:
             return False
 
         leftPos = self.board.Movement.calculateNewPos(self.board.WIDTHINBLOCKS, self.board.HEIGHTINBLOCKS,
                                                       headPos, getLeftDirection(self.direction))
 
-        if self.board.Movement.checkCollision(self.board, leftPos[0][0],
-                                              leftPos[0][1]) != GridElementType.SnakePart:
+        targetGrid = self.board.Movement.checkCollision(self.board, leftPos[0][0],
+                                                        leftPos[0][1])
+
+        if targetGrid != GridElementType.SnakePart and targetGrid != GridElementType.Wall:
             return False
 
         rightPos = self.board.Movement.calculateNewPos(self.board.WIDTHINBLOCKS, self.board.HEIGHTINBLOCKS,
                                                        headPos, getRightDirection(self.direction))
 
-        if self.board.Movement.checkCollision(self.board, rightPos[0][0],
-                                              rightPos[0][1]) != GridElementType.SnakePart:
+        targetGrid = self.board.Movement.checkCollision(self.board, rightPos[0][0],
+                                                        rightPos[0][1])
+
+        if targetGrid != GridElementType.SnakePart and targetGrid != GridElementType.Wall:
             return False
 
         # ako je stigao do ovde zmija je zarobljena
