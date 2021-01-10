@@ -132,16 +132,14 @@ class Board(QFrame):
         # print("Na redu je igrac " + str(index))
 
     def updatePowerUp(self):
+        survived = []
+        for powerUp in self.PowerUps:
+            if not powerUp.update():
+                survived.append(powerUp)
+        self.PowerUps = survived
+
         if self.turnCount % self.powerUpSpawnTimer == 0:
             self.spawnPowerUp()
-
-        toRemove = []
-        for powerUp in self.PowerUps:
-            if powerUp.update():
-                toRemove.append(powerUp)
-
-        if toRemove:
-            self.PowerUps.remove(toRemove)
 
     def spawnPowerUp(self):
         while True:

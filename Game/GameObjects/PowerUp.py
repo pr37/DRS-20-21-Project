@@ -25,7 +25,7 @@ class PowerUp(GameObject):
             return PowerEffects.Death
 
     def update(self):
-        self.turnsPassed += self.turnsPassed + 1
-        if self.turnsPassed == self.turnsAlive:
+        self.turnsPassed += 1
+        if self.turnsPassed >= self.turnsAlive:
             return True
         return False
