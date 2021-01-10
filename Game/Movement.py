@@ -97,13 +97,12 @@ class Movement:
             if snakePickedFood:
                 board.gameObjectUpdate([], [[newPosX, newPosY]], GridElementType.Food)
 
-
             head = [snake.current_x_head, snake.current_y_head]
             snake.snakePosition.insert(0, head)
 
             if not snakePickedFood:
                 snake.oldPosition = snake.snakePosition.pop()
-                snake.oldPosition = [snake.oldPosition] #hack fix
+                snake.oldPosition = [snake.oldPosition]  # hack fix
             else:
                 snake.moves += 1
 
@@ -111,6 +110,18 @@ class Movement:
 
         elif newGridElement == GridElementType.Wall or newGridElement == GridElementType.SnakePart:
             board.turnPlayer.snakeDied(snake)
+
+        elif newGridElement == GridElementType.PowerUp:
+            if board.determinePowerUp([[newPosX, newPosY]]):
+                snake.current_x_head, snake.current_y_head = newPosX, newPosY
+                head = [snake.current_x_head, snake.current_y_head]
+                snake.snakePosition.insert(0, head)
+                snake.moves += 1
+                board.turnPlayer.snakeMoved(snake)
+            else:
+                board.turnPlayer.snakeDied(snake)
+
+
 
     #
     # @staticmethod
