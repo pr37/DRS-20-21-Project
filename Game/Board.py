@@ -191,17 +191,10 @@ class Board(QFrame):
                 self.nextPlayerTurn()
 
     def updateGameState(self, newGameState):
-        #if newGameState is not GameVariables:
-       #     return
-
         self.Grid = newGameState.Grid
         self.Foods = []
         for foodPos in newGameState.foodPositions:
             self.Foods.append(Food(self, foodPos[0]))
-
-        self.turnPlayer = self.Players[newGameState.playerTurn]
-        self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
-
         self.Players[0].Snakes = []
         for snake in newGameState.player1Snakes:
             pos = snake[0]
@@ -228,6 +221,8 @@ class Board(QFrame):
                 pos = snake[0]
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
+        self.turnPlayer = self.Players[newGameState.playerTurn]
+        self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
 
     def checkSnakesCaptures(self):
         for player in self.Players:

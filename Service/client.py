@@ -56,6 +56,11 @@ def unpickle_data(recieved):
         game.sboard.nextPlayerTurn()
         game.sboard.turnIt = False
         got_from_server.turnItVar = False
+        print("trenutno igra: sa zmijom:")
+        print("clientTurn:"+game.sboard.clientTurn)
+        print("ja:" + client_id)
+        print(game.sboard.turnPlayerIndex)
+        print(game.sboard.turnPlayer.turnSnakeIndex)
     if got_from_server != game_data:
         if got_from_server.client_id != client_id:
             game.sboard.updateGameState(got_from_server)
