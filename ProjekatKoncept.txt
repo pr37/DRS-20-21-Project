@@ -1,0 +1,16 @@
+
+
+Class Snake:
+	-duzina , pozicija, preostali broj poteza u ovom potezu
+	-registruje upravljanje zmijom (ko je zaduzen za proveru kolizije?)
+
+Class Board:
+	-matrica polja mape
+	-popunjena praznim mestima, zmijom, zidom...
+	-koji Playeri igraju, ko je na potezu
+	-Player obavestava da je zavrsio potez
+
+Class Player:
+	-njegove zmije
+	-end turn metod, moraju svi potezi biti odigrani nad svim njegovim zmijama (mozda cak i klassa Turn?)
+

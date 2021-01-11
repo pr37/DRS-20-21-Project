@@ -6,7 +6,7 @@ class GridElementType(enum.Enum):
     Food = 1
     Wall = 2
     SnakePart = 3
-
+    PowerUp = 4
 
 #class GridElement:
 #    def __init__(self, type, position):
