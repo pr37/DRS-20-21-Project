@@ -25,6 +25,8 @@ client_memo = clientMemo()
 
 
 def accept_wrapper(sock):
+    global justSubscribed
+    justSubscribed = True
     conn, addr = sock.accept()  # Should be ready to read
     print("accepted connection from", addr)
     conn.setblocking(False)
@@ -35,7 +37,7 @@ def accept_wrapper(sock):
 
 
 def unpickle_data(recieved):
-    global game_data
+    global game_data, justSubscribed
     game_data = pickle.loads(recieved)
     if game_data.client_id not in client_memo.clientsToPlayers:
         client_memo.clientsToPlayers.append(game_data.client_id)
@@ -45,6 +47,7 @@ def unpickle_data(recieved):
     print(game_data.player1Snakes[0])
 
 def service_connection(key, mask):
+    global justSubscribed
     sock = key.fileobj
     data = key.data
     if mask & selectors.EVENT_READ:
@@ -60,10 +63,15 @@ def service_connection(key, mask):
             #sent = sock.send(data.outb)  # Should be ready to write
             unpickle_data(recv_data)
             game_data.clientsToPlayers = client_memo.clientsToPlayers
+            print("cliToPl:"+str(len(game_data.clientsToPlayers)))
             pickled_data = pickle.dumps(game_data)
-            for c in clients:
-                sent = c.send(pickled_data)  #data.outb
-            data.outb = data.outb[sent:]
+            if justSubscribed == False:
+                for c in clients:
+                    sent = c.send(pickled_data)  #data.outb
+                    data.outb = data.outb[sent:]
+            else:
+                justSubscribed = False
+                data.outb = b''
 
 
 #

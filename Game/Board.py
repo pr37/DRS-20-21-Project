@@ -50,6 +50,7 @@ class Board(QFrame):
         self.parent = parent
         self.clientsToPlayers = []
         self.clientTurn = ''
+        self.turnIt = False
 
         if startingSnakesPosition is None:
             for i in range(numberOfPlayers):
@@ -121,7 +122,7 @@ class Board(QFrame):
         self.turnPlayer = self.Players[index]
         self.clientTurn = self.clientsToPlayers[index]
         self.turnPlayerIndex = index
-
+        self.turnIt = True
         self.timeLeft = self.moveTime
         self.update()
         # print("Na redu je igrac " + str(index))

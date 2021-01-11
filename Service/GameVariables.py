@@ -12,6 +12,8 @@ class GameVariables:
         self.player4Snakes = []
         self.client_id = ''
         self.clientsToPlayers = []
+        self.nextClientTurn = ''
+        self.turnItVar = False
 
 
 

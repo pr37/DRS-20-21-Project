@@ -18,10 +18,14 @@ messages = [b"Message 1 from client.", b"Message 2 from client."] #this will be 
 eventHappened = False
 game = None
 client_id = str(uuid.uuid4())
-got_from_server = None
 skip_event = False
+#global subscribed  #prvi put mora da se prijavi kod servera kao klijent
+#subscribed = None
 
 def start_connections(host, port, num_conns):
+    global subscribed, turnOrder
+    subscribed = False
+    turnOrder = False
     server_addr = (host, port)
     for i in range(0, num_conns):
         connid = i + 1
@@ -41,9 +45,17 @@ def start_connections(host, port, num_conns):
 
 
 def unpickle_data(recieved):
-    global got_from_server      #TODO ovo gurni na Board
+    global got_from_server, turnOrder, game_data     #TODO ovo gurni na Board
     got_from_server = pickle.loads(recieved)
     game.sboard.clientsToPlayers = got_from_server.clientsToPlayers
+    if turnOrder == False:
+        if len(game.sboard.clientsToPlayers) >= 1:
+            game.sboard.clientTurn = game.sboard.clientsToPlayers[0]
+        turnOrder = True
+    if got_from_server.turnItVar == True and game.sboard.clientTurn == client_id:
+        game.sboard.nextPlayerTurn()
+        game.sboard.turnIt = False
+        got_from_server.turnItVar = False
     if got_from_server != game_data:
         if got_from_server.client_id != client_id:
             game.sboard.updateGameState(got_from_server)
@@ -52,14 +64,19 @@ def unpickle_data(recieved):
             print(got_from_server.snakeTurn)
             print(got_from_server.player1Snakes[0])
         else:
-            print("not my turn will not send")
+            print("will not send to myself")
     else:
         print("Irrelevant event, will not update")
 
 
 def service_connection(key, mask):
+    global subscribed, got_from_server, sock
     sock = key.fileobj
     data = key.data
+    if game is not None:
+        if game.sboard.turnIt == True:
+            change_turn()
+
     if mask & selectors.EVENT_READ:
         recv_data = sock.recv(20000)  # Should be ready to read
         if recv_data:
@@ -67,15 +84,25 @@ def service_connection(key, mask):
             unpickle_data(recv_data)
     if mask & selectors.EVENT_WRITE:
         if game is not None:
-            if game.sboard.eventHappened is True:
-                if game.sboard.clientTurn == client_id:
-                    fill_game_variables()
-                    sent = sock.send(pickle.dumps(game_data))
-                    print("SENT IN BYTES")
-                    print(sent)
-                    game.sboard.eventHappened = False
+            if subscribed == False:
+                if len(game.sboard.clientsToPlayers) >= 1:
+                    game.sboard.clientTurn = game.sboard.clientsToPlayers[0] #podesi updejtovanu lisu klijenata da bude turn prvog igraca
+            if game.sboard.eventHappened is True or subscribed == False:
+                if game.sboard.clientTurn == client_id or subscribed == False:
+                        fill_game_variables()
+                        sent = sock.send(pickle.dumps(game_data))
+                        print("SENT IN BYTES")
+                        print(sent)
+                        game.sboard.eventHappened = False
+                        subscribed = True
                 else:
                     print("Its not my turn, shall not send")
+
+
+def change_turn():
+    fill_game_variables()
+    sent = sock.send(pickle.dumps(game_data))
+    game.sboard.turnIt = False
 
 
 host = "127.0.0.1"  # Standard loopback interface address (localhost)
@@ -108,6 +135,10 @@ def fill_game_variables():
     if (len(game.sboard.Players) == 4):
         for val in game.sboard.Players[3].Snakes:
             game_data.player4Snakes.append([val.snakePosition, val.direction])
+    if game.sboard.turnIt == True:
+        #game_data.nextClientTurn = game.sboard.clientsToPlayers[game.sboard.turnPlayerIndex]
+        game.sboard.turnIt = False
+        game_data.turnItVar = True
 
 
 def start_game():
@@ -115,7 +146,9 @@ def start_game():
     global game
     game = SnakeGame()
     game.sboard.clientsToPlayers.append(client_id) #ovo treba npr u server da se cuva
-    if (game.sboard.clientTurn == ''):
+    if len(game.sboard.clientsToPlayers) >= 1:
+        game.sboard.clientTurn = game.sboard.clientsToPlayers[0]
+    elif (game.sboard.clientTurn == ''):
         game.sboard.clientTurn = client_id
     sys.exit(app.exec_())
 
@@ -137,7 +170,7 @@ def connection_loop():
 
 
 if __name__ == '__main__':
-    global game_data, game_data_bytes
+    global game_data, game_data_bytes, subscribed
     game_data = GameVariables()
 
     p = threading.Thread(target=start_game,)      # p = Process(target=start_game)
