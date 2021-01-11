@@ -52,3 +52,14 @@ class WelcomeScene(QGraphicsScene):
         self.exitBtn.resize(100, 50)
         self.exitBtn.move(250, 230)
         self.addWidget(self.exitBtn)
+
+        # self.winBtn = QPushButton("Win")
+        # self.winBtn.setStyleSheet("QPushButton{"
+        #                            "color: white; background-color: transparent; font:bold; border-style: outset; border-width: 2px; border-color: white"
+        #                            "}"
+        #                            "QPushButton:hover{"
+        #                            "background-color: #C14242"
+        #                            "}")
+        # self.winBtn.resize(100, 50)
+        # self.winBtn.move(250, 295)
+        # self.addWidget(self.winBtn)

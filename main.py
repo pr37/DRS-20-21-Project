@@ -11,6 +11,7 @@ from PyQt5.QtCore import QThread, QProcess
 from welcome_scene import *
 from about_scene import *
 from mode_scene import *
+from win_scene import *
 
 
 
@@ -22,6 +23,7 @@ class MainWindow(QGraphicsView):
         self.iconName = "snakeHead.png"
         self.widths = 602
         self.heights = 502
+        #self.txt = "input"
         self.rect().center()    # sta?
         self.setFixedWidth(self.widths)
         self.setFixedHeight(self.heights)
@@ -30,11 +32,15 @@ class MainWindow(QGraphicsView):
         self.welcomeScene.newGameBtn.clicked.connect(self.NewGame)
         self.welcomeScene.aboutGameBtn.clicked.connect(self.AboutGame)
         self.welcomeScene.exitBtn.clicked.connect(self.ExitGame)
+        #self.welcomeScene.winBtn.clicked.connect(self.WinGame)#ja
         self.aboutScene = None
         self.modeScene = None
+        #self.winScene = None#ja
         self.setScene(self.welcomeScene)
 
         self.show()
+
+
 
     def NewGame(self):
         self.modeScene = ModeScene(self, self.widths, self.heights)
@@ -52,6 +58,11 @@ class MainWindow(QGraphicsView):
         self.aboutScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.aboutScene)
 
+    # #ja odavde
+    # def WinGame(self):
+    #     self.winScene = WinScene(self, self.widths, self.heights,self.txt)
+    #     self.setScene(self.winScene)
+    # #ja dovde
 
     def ExitGame(self):
         self.close()
