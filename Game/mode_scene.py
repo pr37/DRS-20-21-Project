@@ -11,7 +11,7 @@ class ModeScene(QGraphicsScene):
         self.parent = parent
 
         self.label = QLabel()
-        self.pixmap = QPixmap('snake_background.png')
+        self.pixmap = QPixmap('Images/snake_background.png')
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.width - 2, self.height - 2)
         self.addWidget(self.label)
@@ -22,40 +22,7 @@ class ModeScene(QGraphicsScene):
         self.mainLabel.move(180, 0)
         self.addWidget(self.mainLabel)
 
-        """
-        self.twoPlayerBtn = QPushButton("2 Players")
-        self.twoPlayerBtn.setStyleSheet("QPushButton{"
-                                       "color: white; background-color: transparent; font:bold; border-style: outset; border-width: 2px; border-color: white"
-                                       "}"
-                                       "QPushButton:hover{"
-                                       "background-color: #3F7FBF"
-                                       "}")
-        self.twoPlayerBtn.resize(100, 50)
-        self.twoPlayerBtn.move(250, 100)
-        self.addWidget(self.twoPlayerBtn)
 
-        self.threePlayerBtn = QPushButton("3 Players")
-        self.threePlayerBtn.setStyleSheet("QPushButton{"
-                                          "color: white; background-color: transparent; font:bold; border-style: outset; border-width: 2px; border-color: white"
-                                          "}"
-                                          "QPushButton:hover{"
-                                          "background-color: #3F7FBF"
-                                          "}")
-        self.threePlayerBtn.resize(100, 50)
-        self.threePlayerBtn.move(250, 165)
-        self.addWidget(self.threePlayerBtn)
-
-        self.fourPlayerBtn = QPushButton("4 Players")
-        self.fourPlayerBtn.setStyleSheet("QPushButton{"
-                                         "color: white; background-color: transparent; font:bold; border-style: outset; border-width: 2px; border-color: white"
-                                         "}"
-                                         "QPushButton:hover{"
-                                         "background-color: #3F7FBF"
-                                         "}")
-        self.fourPlayerBtn.resize(100, 50)
-        self.fourPlayerBtn.move(250, 230)
-        self.addWidget(self.fourPlayerBtn)
-        """
         # drop down menu
         self.mainLabel = QLabel("Number of players:")
         self.mainLabel.resize(230, 100)

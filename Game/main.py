@@ -22,7 +22,7 @@ class MainWindow(QGraphicsView):
         self.iconName = "snakeHead.png"
         self.widths = 602
         self.heights = 502
-        self.rect().center()    # sta?
+        self.rect().center()
         self.setFixedWidth(self.widths)
         self.setFixedHeight(self.heights)
 
@@ -36,16 +36,14 @@ class MainWindow(QGraphicsView):
 
         self.show()
 
+
     def NewGame(self):
         self.modeScene = ModeScene(self, self.widths, self.heights)
         self.modeScene.playButton.clicked.connect(self.PlayGame)
-        """
-        self.modeScene.twoPlayerBtn.clicked.connect(self.TwoPlayers)
-        self.modeScene.threePlayerBtn.clicked.connect(self.ThreePlayers)
-        self.modeScene.fourPlayerBtn.clicked.connect(self.FourPlayers)
-        """
+
         self.modeScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.modeScene)
+
 
     def AboutGame(self):
         self.aboutScene = AboutScene(self, self.widths, self.heights)
@@ -66,19 +64,7 @@ class MainWindow(QGraphicsView):
         print("broj igraca: ", numOfPlayers)
         game = SnakeGame()
         self.close()
-    """
-    def TwoPlayers(self):
-        game = SnakeGame()
-        self.close()
 
-
-    def ThreePlayers(self):
-        self.close()
-
-
-    def FourPlayers(self):
-        self.close()
-    """
 
 if __name__ == '__main__':
     app = QApplication([])

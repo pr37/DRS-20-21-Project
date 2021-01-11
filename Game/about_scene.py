@@ -11,7 +11,7 @@ class AboutScene(QGraphicsScene):
         self.setSceneRect(QRectF(0, 0, self.width - 2, self.height - 2))
 
         self.label = QLabel()
-        self.pixmap = QPixmap('snake_background.png')
+        self.pixmap = QPixmap('Images/snake_background.png')
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.width - 2, self.height - 2)
         self.addWidget(self.label)
@@ -24,7 +24,7 @@ class AboutScene(QGraphicsScene):
 
         self.labelKeys = QLabel()
         self.labelKeys.setStyleSheet("background:transparent")
-        self.pixmapKeys = QPixmap('w_key.png')
+        self.pixmapKeys = QPixmap('Images/w_key.png')
         self.labelKeys.setPixmap(self.pixmapKeys)
         self.labelKeys.resize(width - 500, 50)
         self.labelKeys.move(30, 90)
@@ -38,7 +38,7 @@ class AboutScene(QGraphicsScene):
 
         self.labelKeys = QLabel()
         self.labelKeys.setStyleSheet("background:transparent")
-        self.pixmapKeys = QPixmap('s_key.png')
+        self.pixmapKeys = QPixmap('Images/s_key.png')
         self.labelKeys.setPixmap(self.pixmapKeys)
         self.labelKeys.resize(width - 500, 50)
         self.labelKeys.move(30, 150)
@@ -52,7 +52,7 @@ class AboutScene(QGraphicsScene):
 
         self.labelKeys = QLabel()
         self.labelKeys.setStyleSheet("background:transparent")
-        self.pixmapKeys = QPixmap('a_key.png')
+        self.pixmapKeys = QPixmap('Images/a_key.png')
         self.labelKeys.setPixmap(self.pixmapKeys)
         self.labelKeys.resize(width - 500, 50)
         self.labelKeys.move(30, 210)
@@ -66,7 +66,7 @@ class AboutScene(QGraphicsScene):
 
         self.labelKeys = QLabel()
         self.labelKeys.setStyleSheet("background:transparent")
-        self.pixmapKeys = QPixmap('d_key.png')
+        self.pixmapKeys = QPixmap('Images/d_key.png')
         self.labelKeys.setPixmap(self.pixmapKeys)
         self.labelKeys.resize(width - 500, 50)
         self.labelKeys.move(30, 270)

@@ -10,7 +10,7 @@ class WelcomeScene(QGraphicsScene):
         self.height = height
         self.prnt = parent
         self.label = QLabel()
-        self.pixmap = QPixmap('snake_background.png')
+        self.pixmap = QPixmap('Images/snake_background.png')
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.width-2, self.height-2)
         self.addWidget(self.label)
