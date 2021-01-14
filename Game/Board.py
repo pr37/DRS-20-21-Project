@@ -60,7 +60,7 @@ class Board(QFrame):
                 offset = i * 10
                 snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
                 snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
-                snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
+                snake3 = [[13 + offset, 14], [13 + offset, 15], [13 + offset, 16]]
                 positions = [snake1, snake2, snake3]
                 directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
                 self.Players.append(Player(self, i, 3, positions, directions))
