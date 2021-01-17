@@ -14,7 +14,6 @@ from Game.GameObjects.Food import Food
 from Game.GameObjects.Snake import Snake
 from Game.GameObjects.Wall import Wall
 
-
 class Board(QFrame):
     config = Config()
     SPEED = config.SPEED
@@ -42,7 +41,7 @@ class Board(QFrame):
         self.PowerUps = []
         self.config = Config()
         self.setFocusPolicy(Qt.StrongFocus)
-        self.numberOfPlayers = numberOfPlayers
+        self.numberOfPlayers1 = int(numberOfPlayers)
         self.eventHappened = False
         self.Grid = self.createGrid()
         config = Config()
@@ -54,16 +53,30 @@ class Board(QFrame):
         self.powerUpSpawnTimer = config.powerUpSpawnTimer
         self.powerUpLiveTimer = config.powerUpLiveTimer
         self.turnCount = 0
+        #self.mw = MainWindow()
+
+        if self.numberOfPlayers1 == 2:
+            dividerX = 0
+            dividerY = 4
+        elif self.numberOfPlayers1 == 3:
+            dividerX = -5
+            dividerY = 3
+        else :
+            dividerX = 0
+            dividerY = 1
 
         if startingSnakesPosition is None:
-            for i in range(numberOfPlayers):
+            for i in range(self.numberOfPlayers1):
                 offset = i * 10
-                snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
-                snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
-                snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
+                snake1 = [[5 + offset + dividerX, 13 + dividerY], [5 + offset + dividerX, 14 + dividerY], [5 + offset + dividerX, 15 + dividerY]]
+                #snake1 = [[5 + offset + divider, 13], [5 + offset + divider, 14], [5 + offset + divider, 15]]
+                snake2 = [[9 + offset + dividerX, 13 + dividerY], [9 + offset + dividerX, 14 + dividerY], [9 + offset + dividerX, 15 + dividerY]]
+                snake3 = [[13 + offset + dividerX, 13 + dividerY], [13 + offset + dividerX, 14 + dividerY], [13 + offset + dividerX, 15 + dividerY]]
                 positions = [snake1, snake2, snake3]
                 directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
                 self.Players.append(Player(self, i, 3, positions, directions))
+                dividerY = dividerY * (-2)
+                dividerX = dividerX * (-2)
         else:
             for i in range(numberOfPlayers):
                 snakes = []
@@ -77,9 +90,17 @@ class Board(QFrame):
                     continue
                 self.Players.append((Player(self, i, len(snakes), snakes, directions)))
 
+        cnt = 0
         if startingWalls is None:
             for x in range(self.HEIGHTINBLOCKS):
-                self.Walls.append(Wall(self, [x, x]))
+                cnt = cnt + 1
+                if cnt % 5 == 0:
+                    if cnt > 20:
+                        self.Walls.append(Wall(self, [x - dividerX - dividerY, x]))
+                    else:
+                        self.Walls.append(Wall(self, [x, x]))
+                if cnt % 10 == 0:
+                    self.Walls.append(Wall(self, [x, x - 4]))
         else:
             for wallPos in startingWalls:
                 self.Walls.append(Wall(self, wallPos))
@@ -185,6 +206,10 @@ class Board(QFrame):
     def keyPressEvent(self, event):
         self.Movement.keyPressEvent(self, event)
         self.eventHappened = True
+        # if len(self.Players == 0):
+        #     return 1
+        # else :
+        #     return 0
 
     def paintEvent(self, event):
         self.Drawer.paintEvent(self, event)
@@ -269,9 +294,11 @@ class Board(QFrame):
         if len(self.Players) <= 1:
             self.gameOver()
 
+    # kraaaaj
     def gameOver(self):
         if len(self.Players) == 0:
             pass  # mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
+
 
         print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")

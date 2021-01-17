@@ -3,9 +3,10 @@ from Board import Board
 
 
 class SnakeGame(QMainWindow):
-    def __init__(self):
+    def __init__(self,numOfPlayers):
         super(SnakeGame, self).__init__()
-        self.sboard = Board(self, 2)  # start the game with 2 players
+        self.sboard = Board(self, numOfPlayers)  # start the game with 2 players
+
 
         # primeri za pravljanje table
         # [x,y] 0,0 koordinata je gore levo (ne dole levo), x ide do 60, y do 40
@@ -56,7 +57,7 @@ class FormWidget(QWidget):
         self.layout = QVBoxLayout(self)
         self.labelTime = QLabel("Time : inf s")
         self.labelPlayer = QLabel("Playing : Player " + str(parent.sboard.turnPlayer.Name))
-        self.labelPlayersNum = QLabel("Number of players: " + str(parent.sboard.numberOfPlayers))
+        self.labelPlayersNum = QLabel("Number of players: " + str(parent.sboard.numberOfPlayers1))
         self.previousSnake = QPushButton("Previous snake")
         self.previousSnake.setStyleSheet("QPushButton{"
                                    "color: white; background-color: black; font:bold; border-style: outset; border-width: 2px; border-color: grey"

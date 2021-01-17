@@ -8,9 +8,11 @@ from multiprocessing import Process
 from threading import Thread
 from PyQt5.QtCore import QThread, QProcess
 
+
 from welcome_scene import *
 from about_scene import *
 from mode_scene import *
+from win_scene import *
 
 
 
@@ -30,8 +32,10 @@ class MainWindow(QGraphicsView):
         self.welcomeScene.newGameBtn.clicked.connect(self.NewGame)
         self.welcomeScene.aboutGameBtn.clicked.connect(self.AboutGame)
         self.welcomeScene.exitBtn.clicked.connect(self.ExitGame)
+        #self.welcomeScene.winBtn.clicked.connect(self.WinGame)#ja
         self.aboutScene = None
         self.modeScene = None
+        self.winScene = None#ja
         self.setScene(self.welcomeScene)
 
         self.show()
@@ -50,6 +54,11 @@ class MainWindow(QGraphicsView):
         self.aboutScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.aboutScene)
 
+    #ja o
+    def WinGame(self):
+        self.winScene = WinScene(self, self.widths, self.heights)
+        self.setScene(self.winScene)
+    #ja d
 
     def ExitGame(self):
         self.close()
@@ -62,12 +71,17 @@ class MainWindow(QGraphicsView):
     def PlayGame(self):
         numOfPlayers = self.modeScene.playerComboBox.currentText()
         print("broj igraca: ", numOfPlayers)
-        game = SnakeGame()
+        #self.snakesScene = SnakesScene(self,self.widhts,self.heights,number)
+        #self.setScene(self. snakesScene)#ja
+        game = SnakeGame(numOfPlayers)
         self.close()
 
+    def Ende(self):
+        self.WinGame()
 
 if __name__ == '__main__':
     app = QApplication([])
     #game = SnakeGame()
     mw = MainWindow()
+    #mw.WinGame()
     sys.exit(app.exec_())
