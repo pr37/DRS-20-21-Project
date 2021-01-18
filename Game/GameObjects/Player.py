@@ -1,5 +1,6 @@
 from Service.Config import Config
 from Game.GameObjects.Snake import Snake
+#from Game.main import MainWindow#ja
 
 
 class Player(Config):

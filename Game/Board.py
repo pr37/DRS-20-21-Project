@@ -2,6 +2,8 @@ from PyQt5.QtCore import QBasicTimer, Qt
 from PyQt5.QtWidgets import QFrame
 import random
 
+#from Game.main import MainWindow#ja
+from Game.Pobeda import MainWindow
 from Game.GameObjects.PowerUp import PowerUp, PowerEffects
 from Service.Config import Config
 from Service.GameVariables import GameVariables
@@ -54,6 +56,7 @@ class Board(QFrame):
         self.powerUpLiveTimer = config.powerUpLiveTimer
         self.turnCount = 0
         #self.mw = MainWindow()
+        self.mw = None
 
         if self.numberOfPlayers1 == 2:
             dividerX = 0
@@ -302,6 +305,8 @@ class Board(QFrame):
 
         print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")
+        mw = MainWindow()
+        mw.WinGame(str(self.Players[0].Name))
 
     def determinePowerUp(self, position):
         for powerUps in self.PowerUps:

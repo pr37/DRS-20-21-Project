@@ -54,11 +54,11 @@ class MainWindow(QGraphicsView):
         self.aboutScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.aboutScene)
 
-    #ja o
-    def WinGame(self):
-        self.winScene = WinScene(self, self.widths, self.heights)
-        self.setScene(self.winScene)
-    #ja d
+    # #ja o
+    # def WinGame(self):
+    #     self.winScene = WinScene(self, self.widths, self.heights, self.txt)
+    #     self.setScene(self.winScene)
+    # #ja d
 
     def ExitGame(self):
         self.close()
@@ -83,5 +83,6 @@ if __name__ == '__main__':
     app = QApplication([])
     #game = SnakeGame()
     mw = MainWindow()
+    #mw.show()
     #mw.WinGame()
     sys.exit(app.exec_())

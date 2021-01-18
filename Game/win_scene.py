@@ -1,12 +1,12 @@
 from PyQt5.QtCore import QSize, QDir, Qt, QRectF
 from PyQt5.QtGui import QBrush, QFont, QPalette, QFontDatabase, QImage, QPixmap
 from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QPushButton, QLabel
-from Game.main import MainWindow
+#from Game.main import MainWindow
 
 class WinScene(QGraphicsScene):
-    def __init__(self, parent, width, height):
+    def __init__(self, parent, width, height, txt):
         super().__init__(parent)
-        #self.txt = txt
+        self.txt = txt
         self.width = width
         self.height = height
         self.setSceneRect(QRectF(0, 0, self.width - 2, self.height - 2))
@@ -23,7 +23,7 @@ class WinScene(QGraphicsScene):
         self.mainLabel.move(214, 0)
         self.addWidget(self.mainLabel)
 
-        self.winLabel = QLabel("Plr with num is a winner")
+        self.winLabel = QLabel("Plr with num " + self.txt + " is a winner")
         self.winLabel.resize(600, 150)  # veca velicina
         self.winLabel.setStyleSheet("color: white; font-size:32px; font:bold; background:transparent")
         self.winLabel.move(60, 5)
