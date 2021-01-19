@@ -303,10 +303,10 @@ class Board(QFrame):
             pass  # mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
 
 
-        print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
+        print("Pobedio je igrac " + str(self.Players[0].Name + 1) + " !")  # TODO victory prozor
         print("Kraj igre")
         mw = MainWindow()
-        mw.WinGame(str(self.Players[0].Name))
+        mw.WinGame(str(self.Players[0].Name + 1))
 
     def determinePowerUp(self, position):
         for powerUps in self.PowerUps:
