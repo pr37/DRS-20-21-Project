@@ -2,6 +2,9 @@ from PyQt5.QtCore import QBasicTimer, Qt
 from PyQt5.QtWidgets import QFrame
 import random
 
+#from Game.main import MainWindow#ja
+from Game.Pobeda import MainWindow
+from Game.GameObjects.PowerUp import PowerUp, PowerEffects
 from Service.Config import Config
 from Service.GameVariables import GameVariables
 from Game.GameObjects.GridElement import GridElementType
@@ -38,9 +41,10 @@ class Board(QFrame):
         self.Foods = []
         self.Players = []
         self.Walls = []
+        self.PowerUps = []
         self.config = Config()
         self.setFocusPolicy(Qt.StrongFocus)
-        self.numberOfPlayers = numberOfPlayers
+        self.numberOfPlayers1 = int(numberOfPlayers)
         self.eventHappened = False
         self.Grid = self.createGrid()
         config = Config()
@@ -51,16 +55,35 @@ class Board(QFrame):
         self.clientsToPlayers = []
         self.clientTurn = ''
         self.turnIt = False
+        self.chanceForDeath = config.chanceForDeath
+        self.powerUpSpawnTimer = config.powerUpSpawnTimer
+        self.powerUpLiveTimer = config.powerUpLiveTimer
+        self.turnCount = 0
+        #self.mw = MainWindow()
+        self.mw = None
+
+        if self.numberOfPlayers1 == 2:
+            dividerX = 0
+            dividerY = 4
+        elif self.numberOfPlayers1 == 3:
+            dividerX = -5
+            dividerY = 3
+        else :
+            dividerX = 0
+            dividerY = 1
 
         if startingSnakesPosition is None:
-            for i in range(numberOfPlayers):
+            for i in range(self.numberOfPlayers1):
                 offset = i * 10
-                snake1 = [[5 + offset, 13], [5 + offset, 14], [5 + offset, 15]]
-                snake2 = [[9 + offset, 13], [9 + offset, 14], [9 + offset, 15]]
-                snake3 = [[13 + offset, 13], [13 + offset, 14], [13 + offset, 15]]
+                snake1 = [[5 + offset + dividerX, 13 + dividerY], [5 + offset + dividerX, 14 + dividerY], [5 + offset + dividerX, 15 + dividerY]]
+                #snake1 = [[5 + offset + divider, 13], [5 + offset + divider, 14], [5 + offset + divider, 15]]
+                snake2 = [[9 + offset + dividerX, 13 + dividerY], [9 + offset + dividerX, 14 + dividerY], [9 + offset + dividerX, 15 + dividerY]]
+                snake3 = [[13 + offset + dividerX, 13 + dividerY], [13 + offset + dividerX, 14 + dividerY], [13 + offset + dividerX, 15 + dividerY]]
                 positions = [snake1, snake2, snake3]
                 directions = [MovementDirection.Up, MovementDirection.Up, MovementDirection.Up]
                 self.Players.append(Player(self, i, 3, positions, directions))
+                dividerY = dividerY * (-2)
+                dividerX = dividerX * (-2)
         else:
             for i in range(numberOfPlayers):
                 snakes = []
@@ -74,9 +97,17 @@ class Board(QFrame):
                     continue
                 self.Players.append((Player(self, i, len(snakes), snakes, directions)))
 
+        cnt = 0
         if startingWalls is None:
             for x in range(self.HEIGHTINBLOCKS):
-                self.Walls.append(Wall(self, [x, x]))
+                cnt = cnt + 1
+                if cnt % 5 == 0:
+                    if cnt > 20:
+                        self.Walls.append(Wall(self, [x - dividerX - dividerY, x]))
+                    else:
+                        self.Walls.append(Wall(self, [x, x]))
+                if cnt % 10 == 0:
+                    self.Walls.append(Wall(self, [x, x - 4]))
         else:
             for wallPos in startingWalls:
                 self.Walls.append(Wall(self, wallPos))
@@ -124,8 +155,32 @@ class Board(QFrame):
         self.turnPlayerIndex = index
         self.turnIt = True
         self.timeLeft = self.moveTime
+        self.turnCount += 1
+        self.updatePowerUp()
         self.update()
         # print("Na redu je igrac " + str(index))
+
+    def updatePowerUp(self):
+        died = []
+        for powerUp in self.PowerUps:
+            if powerUp.update():
+                died.append(powerUp)
+        for power in died:
+            self.gameObjectUpdate([], power.position, power.type)
+
+        if self.turnCount % self.powerUpSpawnTimer == 0:
+            self.spawnPowerUp()
+
+    def spawnPowerUp(self):
+        while True:
+            rndWidth = random.randint(0, self.WIDTHINBLOCKS - 1)
+            rndHeight = random.randint(0, self.HEIGHTINBLOCKS - 1)
+
+            position = [rndWidth, rndHeight]
+            if self.checkIfEmpty(position):
+                break
+
+        self.PowerUps.append(PowerUp(self, position, self.powerUpLiveTimer, self.chanceForDeath))
 
     def updateGrid(self, newPos, oldPos, type):
         for pos in newPos:
@@ -140,6 +195,12 @@ class Board(QFrame):
                         if food.position != [position]:
                             newFoodList.append(food)
                     self.Foods = newFoodList
+                elif type == GridElementType.PowerUp:
+                    newPowerList= []
+                    for power in self.PowerUps:
+                        if power.position != [position]:
+                            newPowerList.append(power)
+                    self.PowerUps = newPowerList
 
     def start(self):
         self.timer.start(Board.SPEED, self)
@@ -151,6 +212,12 @@ class Board(QFrame):
         return self.contentsRect().height() / Board.HEIGHTINBLOCKS
 
     def keyPressEvent(self, event):
+        self.Movement.keyPressEvent(self, event)
+        self.eventHappened = True
+        # if len(self.Players == 0):
+        #     return 1
+        # else :
+        #     return 0
         if self.clientTurn == self.clientsToPlayers[self.turnPlayerIndex]:
             self.Movement.keyPressEvent(self, event)
             self.eventHappened = True
@@ -191,6 +258,9 @@ class Board(QFrame):
                 self.nextPlayerTurn()
 
     def updateGameState(self, newGameState):
+        if newGameState is not GameVariables:
+            return
+
         self.Grid = newGameState.Grid
         self.Foods = []
         for foodPos in newGameState.foodPositions:
@@ -241,3 +311,10 @@ class Board(QFrame):
 
         print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")
+        mw = MainWindow()
+        mw.WinGame(str(self.Players[0].Name))
+
+    def determinePowerUp(self, position):
+        for powerUps in self.PowerUps:
+            if powerUps.position == position:
+                return powerUps.determineEffect() == PowerEffects.Grow
