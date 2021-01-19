@@ -52,9 +52,6 @@ class Board(QFrame):
         self.timeLeft = self.moveTime
         self.timer = QBasicTimer()
         self.parent = parent
-        self.clientsToPlayers = []
-        self.clientTurn = ''
-        self.turnIt = False
         self.chanceForDeath = config.chanceForDeath
         self.powerUpSpawnTimer = config.powerUpSpawnTimer
         self.powerUpLiveTimer = config.powerUpLiveTimer
@@ -151,9 +148,8 @@ class Board(QFrame):
         else:
             index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
-        self.clientTurn = self.clientsToPlayers[index]
         self.turnPlayerIndex = index
-        self.turnIt = True
+
         self.timeLeft = self.moveTime
         self.turnCount += 1
         self.updatePowerUp()
@@ -218,11 +214,6 @@ class Board(QFrame):
         #     return 1
         # else :
         #     return 0
-        if self.clientTurn == self.clientsToPlayers[self.turnPlayerIndex]:
-            self.Movement.keyPressEvent(self, event)
-            self.eventHappened = True
-        else:
-            print("Its not your turn, wait!")
 
     def paintEvent(self, event):
         self.Drawer.paintEvent(self, event)
@@ -305,14 +296,16 @@ class Board(QFrame):
         if len(self.Players) <= 1:
             self.gameOver()
 
+    # kraaaaj
     def gameOver(self):
         if len(self.Players) == 0:
             pass  # mozda neka situacija kad se ubiju nekako medjusobno pa je nereseno? nzm verovatno je nepotrebno
 
+
         print("Pobedio je igrac " + str(self.Players[0].Name) + " !")  # TODO victory prozor
         print("Kraj igre")
         mw = MainWindow()
-        mw.WinGame(str(self.Players[0].Name))
+        mw.WinGame(str(self.Players[0].Name + 1))
 
     def determinePowerUp(self, position):
         for powerUps in self.PowerUps:
