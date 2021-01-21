@@ -6,23 +6,6 @@ class SnakeGame(QMainWindow):
     def __init__(self,numOfPlayers):
         super(SnakeGame, self).__init__()
         self.sboard = Board(self, numOfPlayers)  # start the game with 2 players
-
-
-        # primeri za pravljanje table
-        # [x,y] 0,0 koordinata je gore levo (ne dole levo), x ide do 60, y do 40
-        # exampleSnakes = [[[[5, 13], [5, 14], [5, 15]], [[7, 13], [7, 14]]],  # dve zmije prvom igracu
-        #                  [[[9, 13], [9, 14]]],
-        #                  [[[14, 13], [14, 14]]]]
-        # exampleFoods = [[11, 9],
-        #                 [24, 20],
-        #                 [24, 21],
-        #                 [1, 15],
-        #                 [50, 8]]
-        # exampleWalls = [[10, 10],
-        #                 [11, 11],
-        #                 [12, 12]]
-        # self.sboard = Board(self, 3, startingSnakesPosition=exampleSnakes, startingFoods=exampleFoods, startingWalls=exampleWalls)
-
         self.sboard.setStyleSheet("QWidget {background-image: url(Images/background.jpg)}")
         self.setCentralWidget(self.sboard)
         self.setWindowTitle('DRS Snake Game')

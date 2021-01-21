@@ -34,6 +34,7 @@ class MainWindow(QGraphicsView):
         self.aboutScene = None
         self.modeScene = None
         self.winScene = None#ja
+        self.game = None
         #self.setScene(self.welcomeScene)
         #self.setScene(self.winScene)
 
@@ -43,7 +44,6 @@ class MainWindow(QGraphicsView):
     def NewGame(self):
         self.modeScene = ModeScene(self, self.widths, self.heights)
         self.modeScene.playButton.clicked.connect(self.PlayGame)
-
         self.modeScene.returnBtn.clicked.connect(self.ReturnToWelcome)
         self.setScene(self.modeScene)
 

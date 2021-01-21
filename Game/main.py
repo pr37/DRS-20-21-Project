@@ -37,7 +37,8 @@ class MainWindow(QGraphicsView):
         self.modeScene = None
         self.winScene = None#ja
         self.setScene(self.welcomeScene)
-
+        self.game = None
+        self.game_started = False
         self.show()
 
 
@@ -73,7 +74,8 @@ class MainWindow(QGraphicsView):
         print("broj igraca: ", numOfPlayers)
         #self.snakesScene = SnakesScene(self,self.widhts,self.heights,number)
         #self.setScene(self. snakesScene)#ja
-        game = SnakeGame(numOfPlayers)
+        self.game = SnakeGame(numOfPlayers)
+        self.game_started = True
         self.close()
 
     def Ende(self):

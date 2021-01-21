@@ -58,6 +58,9 @@ class Board(QFrame):
         self.turnCount = 0
         #self.mw = MainWindow()
         self.mw = None
+        self.clientsToPlayers = []
+        self.clientTurn = ''
+        self.turnIt = False
 
         if self.numberOfPlayers1 == 2:
             dividerX = 0
@@ -149,7 +152,7 @@ class Board(QFrame):
             index = (self.Players.index(self.turnPlayer) + 1) % len(self.Players)
         self.turnPlayer = self.Players[index]
         self.turnPlayerIndex = index
-
+        self.turnIt = True
         self.timeLeft = self.moveTime
         self.turnCount += 1
         self.updatePowerUp()
@@ -249,8 +252,6 @@ class Board(QFrame):
                 self.nextPlayerTurn()
 
     def updateGameState(self, newGameState):
-        if newGameState is not GameVariables:
-            return
 
         self.Grid = newGameState.Grid
         self.Foods = []
