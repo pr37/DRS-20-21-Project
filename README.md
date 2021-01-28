@@ -14,7 +14,7 @@ nikola,uros
 nikola, uros
 
 # Networking
-dragana
+The networking of the application is realised in a server-client arhitecture. Server hosts on a specified IP address and openes a specified port. It then listens for connections. Once the connection with a client is established, server listens for read and write events that come trough and from the connected network socket. The communication relies on non blocking TCP protocol. The client is built with the main game, and with the start of the client, the main game is initialised and started. After starting the client and within the client the main game, some initial game data will be sent to server containing the client id. 
 
 # Visuals
 jpg and gifs (iz naseg projekta)
