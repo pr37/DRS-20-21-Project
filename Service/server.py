@@ -11,6 +11,9 @@ import socket
 import selectors
 import types
 import pickle
+import playsound
+from PlayMusic import PlayMusic
+import threading
 
 sel = selectors.DefaultSelector()
 clients = set()
@@ -84,6 +87,14 @@ lsock.listen()
 print("listening on", (host, port))
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_READ, data=None)
+
+def startMusicThread():
+    music = PlayMusic()
+
+
+p = threading.Thread(target=startMusicThread,)
+p.start()
+
 
 try:
     while True:

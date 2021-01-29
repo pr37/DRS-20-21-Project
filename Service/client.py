@@ -13,6 +13,7 @@ from GameVariables import *
 from PyQt5.QtWidgets import QApplication
 from Game.SnakeGame import SnakeGame
 from main import MainWindow
+import playsound
 
 
 sel = selectors.DefaultSelector()
@@ -56,7 +57,6 @@ def unpickle_data(recieved,game):
             game.sboard.clientTurn = game.sboard.clientsToPlayers[0]
         turnOrder = True
     if got_from_server.turnItVar == True and game.sboard.clientTurn == client_id:
-        game.sboard.nextPlayerTurn()
         game.sboard.turnIt = False
         got_from_server.turnItVar = False
         print("trenutno igra: sa zmijom:")
@@ -86,6 +86,7 @@ def service_connection(key, mask):
             game = mw.game
             if game.sboard.turnIt == True:
                 change_turn(game)
+                game.sboard.turnIt = False
 
             if mask & selectors.EVENT_READ:
                 recv_data = sock.recv(20000)  # Should be ready to read
@@ -158,11 +159,6 @@ def start_game():
     game = None
     mw = MainWindow()
     game = mw.game
-    #game.sboard.clientsToPlayers.append(client_id) #ovo treba npr u server da se cuva
-    #if len(game.sboard.clientsToPlayers) >= 1:
-    #    game.sboard.clientTurn = game.sboard.clientsToPlayers[0]
-    #elif (game.sboard.clientTurn == ''):
-    #    game.sboard.clientTurn = client_id
     sys.exit(app.exec_())
 
 

@@ -81,10 +81,10 @@ class MainWindow(QGraphicsView):
     def Ende(self):
         self.WinGame()
 
-if __name__ == '__main__':
-    app = QApplication([])
+#if __name__ == '__main__':
+    #app = QApplication([])
     #game = SnakeGame()
-    mw = MainWindow()
+    #mw = MainWindow()
     #mw.show()
     #mw.WinGame()
-    sys.exit(app.exec_())
+    #sys.exit(app.exec_())

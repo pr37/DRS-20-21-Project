@@ -252,7 +252,6 @@ class Board(QFrame):
                 self.nextPlayerTurn()
 
     def updateGameState(self, newGameState):
-
         self.Grid = newGameState.Grid
         self.Foods = []
         for foodPos in newGameState.foodPositions:
@@ -283,6 +282,7 @@ class Board(QFrame):
                 pos = snake[0]
                 direction = snake[1]
                 self.Players[3].Snakes.append(Snake(self, pos, direction))
+
         self.turnPlayer = self.Players[newGameState.playerTurn]
         self.turnPlayer.turnSnake = self.turnPlayer.Snakes[newGameState.snakeTurn]
 
