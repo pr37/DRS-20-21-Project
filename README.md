@@ -12,6 +12,16 @@ nikola,uros
 
 # Scenes
 nikola, uros
+1.	Welcome_scene represents the initial scene which together with the other 3 builds the User Interface. In the main there is a logic for changing scenes.
+  ![welcome-scene](https://i.postimg.cc/prNHpFF1/Screenshot-88.png)
+
+2. 	Mode_scene – represents a scene in which the number of players is selected
+  ![mode-scene](https://i.postimg.cc/sDXksmqD/Screenshot-90.png)
+
+3.  About_scene – represents short instructions to the user for playing the game, ie for controlling the movement of snakes.
+  ![about_scene](https://i.postimg.cc/1XTJ9GVf/Screenshot-92.png)
+
+4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.
 
 # Networking
 The networking of the application is realised in a server-client arhitecture. Server hosts on a specified IP address and openes a specified port. It then listens for connections. Once the connection with a client is established, server listens for read and write events that come trough and from the connected network socket. The communication relies on non blocking TCP protocol. The client is built with the main game, and with the start of the client, the main game is initialised and started. After starting the client and within the client the main game, some initial game data will be sent to server containing the client id, so that when the next client joins he will be aware that there are other clients connected already. After all clients are connected the game can begin. The client whose turn it is can move his assigned snakes and end the turn. When the turn ends, all other connected clients will be updated with the newest game state update. When the server gets data from one client, he broadcasts the data (game state update) to other clients so that each client can have the updated game state.
