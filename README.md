@@ -2,7 +2,9 @@
 
 # Introduction
 
-This game is a variation of the classic Snake game by addition of multiple players with turn-based gameplay. Game is designed for competetive 2-4 player experiance. This project was developed for DRS2021 class. 
+This game is a variation of the classic Snake game by addition of multiple players with turn-based gameplay. Game is designed for competetive 2-4 player experiance. 
+The goal of the game is for the user's snakes to remain the only survivors on the board. Each user has 3 venomous snakes. When hitting a wall, the user's snake dies, while hitting food increases the length of the snake by one field. with the body of the snake of another user, then that snake dies in the most severe torment. Each user is limited in time to 30 seconds. If he does not play a move in the given time, then he loses the right to it. If the user finishes the move, click move to the opponent. If the user does not want to play with the desired snake, the options Next Snake and Previous Snake are available, which transfers the control to the next or previous snake on the board.
+This project was developed for DRS2021 class. 
 
 # Arhitecture
 Games arhitecture is comprised of main game and networking infrastructure which is server-client arhitecture. The main game is comprised of introductory scenes that welcome the player to the game, tell him information about the game and gives him the option of exiting. The main game is being run on the clients side. Each client will set up a main game for himself. After running the client and picking number of players from the introductory scene, the game will commence when all players are connected to the server. After they connect, an introductory packet data will be sent to the server so that the server knows which client has which id and whose turn it is. So to say, the game is comprised of three important entities: the server, the client and the main game. 
@@ -37,11 +39,11 @@ There are 3 options on the User Interface:
 # Scenes
 1.	Welcome_scene represents the initial scene which together with the other 3 builds the User Interface. In the main there is a logic for changing scenes.
 
-2. 	Mode_scene – represents a scene in which the number of players is selected
+2. 	Mode_scene – represents a scene in which the number of players is selected.The user can enter a minimum of 2 snakes for the game and a maximum of 4 snakes.
 
-3.  About_scene – represents short instructions to the user for playing the game, ie for controlling the movement of snakes.
+3.  About_scene – It presents a concise content of the Snake game as well as the way the game is played. The squares show the ways in which the user can move his snake in        the game.
 
-4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.
+4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.The text of the form "Player number x is the winner" is printed. Then the user has the opportunity to close the win window and turn off the game.
 
 # Networking
 The networking of the application is realised in a server-client arhitecture. Server hosts on a specified IP address and openes a specified port. It then listens for connections. Once the connection with a client is established, server listens for read and write events that come trough and from the connected network socket. The communication relies on non blocking TCP protocol. The client is built with the main game, and with the start of the client, the main game is initialised and started. After starting the client and within the client the main game, some initial game data will be sent to server containing the client id, so that when the next client joins he will be aware that there are other clients connected already. After all clients are connected the game can begin. The client whose turn it is can move his assigned snakes and end the turn. When the turn ends, all other connected clients will be updated with the newest game state update. When the server gets data from one client, he broadcasts the data (game state update) to other clients so that each client can have the updated game state.
@@ -55,14 +57,14 @@ If all the fields around the snake's head are filled, the snake dies.
 
 ![snake-hungry](https://i.postimg.cc/hPxMMk5w/rsz-screenshot-110.png)
 
-If a snake eats food, the snake grows
+If a snake eats food, the snake grows.
 
 ![snake-full](https://i.postimg.cc/L82kDnfY/rsz-screenshot-111.png)
 
 
 ![snake-beforeWall](https://i.postimg.cc/1tvCDD4K/rsz-screenshot-114.png)
 
-If a snake hits a wall, the snake dies
+If a snake hits a wall, the snake dies.
 
 ![snake-hitTheWall](https://i.postimg.cc/XND1JKRj/rsz-screenshot-115.png)
 
