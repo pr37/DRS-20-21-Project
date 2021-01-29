@@ -19,7 +19,7 @@ nikola, uros
   ![mode-scene](https://i.postimg.cc/sDXksmqD/Screenshot-90.png)
 
 3.  About_scene – represents short instructions to the user for playing the game, ie for controlling the movement of snakes.
-  ![about_scene](https://i.postimg.cc/1XTJ9GVf/Screenshot-92.png)
+  ![about_scene](https://postimg.cc/wRXh2sVp)
 
 4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.
 
