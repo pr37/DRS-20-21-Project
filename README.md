@@ -48,6 +48,18 @@ The networking of the application is realised in a server-client arhitecture. Se
 jpg and gifs (iz naseg projekta)
 nikola,uros
 
+If all the fields around the snake's head are filled, the snake dies.
+
+![snake-captured](https://i.postimg.cc/XNdPqBkt/rsz-screenshot-106.png)      =======>    ![snake-died](https://i.postimg.cc/28T2LQb9/rsz-screenshot-107.png)
+
+
+![snake-hungry](https://i.postimg.cc/hPxMMk5w/rsz-screenshot-110.png)
+
+If a snake eats food, the snake grows
+
+![snake-full](https://i.postimg.cc/L82kDnfY/rsz-screenshot-111.png)
+
+
 # Usage
 The objective of the game is to be the last player standing, ie. the only player with living snakes.
 Each player have several snakes under his control. The snake that is currently "selected" (ready to be commanded with arrow keys) is marked with a red head. 
