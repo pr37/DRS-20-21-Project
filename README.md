@@ -13,13 +13,13 @@ nikola,uros
 # Scenes
 nikola, uros
 1.	Welcome_scene represents the initial scene which together with the other 3 builds the User Interface. In the main there is a logic for changing scenes.
-  ![welcome-scene](https://i.postimg.cc/prNHpFF1/Screenshot-88.png)
+  ![welcome-scene](https://i.postimg.cc/MKqFpDLj/rsz-screenshot-88.png)
 
 2. 	Mode_scene – represents a scene in which the number of players is selected
-  ![mode-scene](https://i.postimg.cc/sDXksmqD/Screenshot-90.png)
+  ![mode-scene](https://i.postimg.cc/9fQ2w2NZ/rsz-screenshot-90.png)
 
 3.  About_scene – represents short instructions to the user for playing the game, ie for controlling the movement of snakes.
-  ![about_scene](https://i.postimg.cc/1XTJ9GVf/Screenshot-92.png)
+  ![about_scene](https://i.postimg.cc/wMsbR4ph/rsz-screenshot-92.png)
 
 4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.
 
