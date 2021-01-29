@@ -10,19 +10,34 @@ deja
 # Components
 nikola,uros
 
+User interface:
+
+Start menu: 
+
+![welcome-scene](https://i.postimg.cc/MKqFpDLj/rsz-screenshot-88.png)
+
+There are 3 options on the User Interface:
+  •	New Game – where the user selects the number of players to play
+  
+  ![mode-scene](https://i.postimg.cc/9fQ2w2NZ/rsz-screenshot-90.png)
+  
+  Play – by clicking on this button, the window for playing the game appears to the user (Previous and Next snake buttons give the user control over the previous / next snake, while pressing the End Turn button the user completes his round and lets the next player move)
+
+  ![game](https://i.postimg.cc/YS0Vwz9B/rsz-screenshot-94.png)
+  
+  •	About Game – A window where the user is explained which commands are needed to move the snake in the game.
+  
+  ![about_scene](https://i.postimg.cc/wMsbR4ph/rsz-screenshot-92.png)
+  
+  
+
 # Scenes
 nikola, uros
 1.	Welcome_scene represents the initial scene which together with the other 3 builds the User Interface. In the main there is a logic for changing scenes.
 
-  ![welcome-scene](https://i.postimg.cc/MKqFpDLj/rsz-screenshot-88.png)
-
 2. 	Mode_scene – represents a scene in which the number of players is selected
 
-  ![mode-scene](https://i.postimg.cc/9fQ2w2NZ/rsz-screenshot-90.png)
-
 3.  About_scene – represents short instructions to the user for playing the game, ie for controlling the movement of snakes.
-
-  ![about_scene](https://i.postimg.cc/wMsbR4ph/rsz-screenshot-92.png)
 
 4.	Win_scene – a scene that occurs when one of the players wins and tells which player is the winner.
 
