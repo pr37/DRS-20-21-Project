@@ -60,6 +60,12 @@ If a snake eats food, the snake grows
 ![snake-full](https://i.postimg.cc/L82kDnfY/rsz-screenshot-111.png)
 
 
+![snake-beforeWall](https://i.postimg.cc/1tvCDD4K/rsz-screenshot-114.png)
+
+If a snake hits a wall, the snake dies
+
+![snake-hitTheWall](https://i.postimg.cc/XND1JKRj/rsz-screenshot-115.png)
+
 # Usage
 The objective of the game is to be the last player standing, ie. the only player with living snakes.
 Each player have several snakes under his control. The snake that is currently "selected" (ready to be commanded with arrow keys) is marked with a red head. 
