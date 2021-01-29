@@ -2,7 +2,7 @@
 
 # Introduction
 
-This game is a variation of the classic Snake game by addition of multiple players with turn-based gameplay. Game is designed for competetive 2-4 player experiance. This project was developed for DRS2021 class.
+This game is a variation of the classic Snake game by addition of multiple players with turn-based gameplay. Game is designed for competetive 2-4 player experiance. This project was developed for DRS2021 class. 
 
 # Arhitecture
 Games arhitecture is comprised of main game and networking infrastructure which is server-client arhitecture. The main game is comprised of introductory scenes that welcome the player to the game, tell him information about the game and gives him the option of exiting. The main game is being run on the clients side. Each client will set up a main game for himself. After running the client and picking number of players from the introductory scene, the game will commence when all players are connected to the server. After they connect, an introductory packet data will be sent to the server so that the server knows which client has which id and whose turn it is. So to say, the game is comprised of three important entities: the server, the client and the main game. 
@@ -12,9 +12,8 @@ The moving of the snakes is handled in the 'Movement' class and is also used in 
 
 [![22.jpg](https://i.postimg.cc/852r1bhX/22.jpg)](https://postimg.cc/0MCNnDX7)
 
-# Components
 
-User interface:
+# User interface:
 
 Start menu: 
 
@@ -36,7 +35,6 @@ There are 3 options on the User Interface:
   
 
 # Scenes
-nikola, uros
 1.	Welcome_scene represents the initial scene which together with the other 3 builds the User Interface. In the main there is a logic for changing scenes.
 
 2. 	Mode_scene – represents a scene in which the number of players is selected
@@ -49,8 +47,6 @@ nikola, uros
 The networking of the application is realised in a server-client arhitecture. Server hosts on a specified IP address and openes a specified port. It then listens for connections. Once the connection with a client is established, server listens for read and write events that come trough and from the connected network socket. The communication relies on non blocking TCP protocol. The client is built with the main game, and with the start of the client, the main game is initialised and started. After starting the client and within the client the main game, some initial game data will be sent to server containing the client id, so that when the next client joins he will be aware that there are other clients connected already. After all clients are connected the game can begin. The client whose turn it is can move his assigned snakes and end the turn. When the turn ends, all other connected clients will be updated with the newest game state update. When the server gets data from one client, he broadcasts the data (game state update) to other clients so that each client can have the updated game state.
 
 # Visuals
-jpg and gifs (iz naseg projekta)
-nikola,uros
 
 If all the fields around the snake's head are filled, the snake dies.
 
