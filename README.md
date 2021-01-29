@@ -5,10 +5,14 @@
 This game is a variation of the classic Snake game by addition of multiple players with turn-based gameplay. Game is designed for competetive 2-4 player experiance. This project was developed for DRS2021 class.
 
 # Arhitecture
-deja 
+Games arhitecture is comprised of main game and networking infrastructure which is server-client arhitecture. The main game is comprised of introductory scenes that welcome the player to the game, tell him information about the game and gives him the option of exiting. The main game is being run on the clients side. Each client will set up a main game for himself. After running the client and picking number of players from the introductory scene, the game will commence when all players are connected to the server. After they connect, an introductory packet data will be sent to the server so that the server knows which client has which id and whose turn it is. So to say, the game is comprised of three important entities: the server, the client and the main game. 
+The main game relies on the 'Board' which is a class that holds all of the game state and information. It sets up the initial state and positions of player snakes, food and the walls. It handles logic for turning the player turn, spawning power up golden apples, updating the grid which holds the information of the positions of entities in the game.
+The moving of the snakes is handled in the 'Movement' class and is also used in the 'Board' class. The Board is being initialised in the SnakeGame class which besides starting up the game also handles the games UI. The game entities that are condensed into separate classes are Food, GameObject, Player, PowerUp, Snake, Wall. All of these are being used by the Drawer class that will draw them onto the Board and handle draw events.
+
+
+[![22.jpg](https://i.postimg.cc/852r1bhX/22.jpg)](https://postimg.cc/0MCNnDX7)
 
 # Components
-nikola,uros
 
 User interface:
 
