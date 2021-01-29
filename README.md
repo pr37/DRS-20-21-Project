@@ -23,7 +23,7 @@ There are 3 options on the User Interface:
   
   Play – by clicking on this button, the window for playing the game appears to the user (Previous and Next snake buttons give the user control over the previous / next snake, while pressing the End Turn button the user completes his round and lets the next player move)
 
-  ![game](https://i.postimg.cc/YS0Vwz9B/rsz-screenshot-94.png)
+  ![game](https://i.postimg.cc/nr9pcthZ/rsz-2screenshot-94.png)
   
   •	About Game – A window where the user is explained which commands are needed to move the snake in the game.
   
